@@ -1,13 +1,18 @@
-import os
-from dotenv import load_dotenv
-from langchain_ollama import ChatOllama
+from app.llm.llm import LLM
 
-load_dotenv()
+# Initialize the LLM
+llm = LLM()
 
-llm = ChatOllama(
-    model=os.getenv("OLLAMA_MODEL"),
-    temperature=0
-)
-response = llm.invoke("Explain in one sentence what a Retrieval-Augmented Generation (RAG) system is.")
+# Simple prompt
+prompt = """
+Who are you?
+"""
 
-print(response.content)
+# Generate response
+response = llm.generate(prompt)
+
+print("=" * 80)
+print("LLM RESPONSE")
+print("=" * 80)
+print()
+print(response)

@@ -1,0 +1,5 @@
+OLLAMA_MODEL = "qwen2.5:3b"
+
+TEMPERATURE = 0.0
+
+NUM_CTX = 4096
