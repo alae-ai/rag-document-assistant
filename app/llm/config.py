@@ -1,5 +1,7 @@
-OLLAMA_MODEL = "qwen2.5:3b"
+from app.config import settings
 
-TEMPERATURE = 0.0
+OLLAMA_MODEL = settings.OLLAMA_MODEL
+
+TEMPERATURE = settings.LLM_TEMPERATURE
 
 NUM_CTX = 4096

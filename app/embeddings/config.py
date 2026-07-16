@@ -1,1 +1,1 @@
-EMBEDDING_MODEL = "nomic-embed-text"
+from app.config.settings import EMBEDDING_MODEL

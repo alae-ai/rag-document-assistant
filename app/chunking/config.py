@@ -1,6 +1,8 @@
-CHUNK_SIZE = 80
+from app.config import settings
 
-CHUNK_OVERLAP = 20
+CHUNK_SIZE = settings.CHUNK_SIZE
+
+CHUNK_OVERLAP = settings.CHUNK_OVERLAP
 
 SEPARATORS = [
     "\n\n",

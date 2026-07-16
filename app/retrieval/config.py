@@ -1,1 +1,1 @@
-TOP_K = 3
+from app.config.settings import TOP_K

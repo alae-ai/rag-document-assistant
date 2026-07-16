@@ -1,33 +1,8 @@
-import os
-from dotenv import load_dotenv
+from app.config import settings
 
-# Load environment variables
-load_dotenv()
+QDRANT_HOST = settings.QDRANT_HOST
+QDRANT_PORT = settings.QDRANT_PORT
+COLLECTION_NAME = settings.QDRANT_COLLECTION
 
-# ==========================
-# Qdrant Configuration
-# ==========================
-
-QDRANT_HOST = os.getenv("QDRANT_HOST", "localhost")
-QDRANT_PORT = int(os.getenv("QDRANT_PORT", 6333))
-
-# ==========================
-# Collection Configuration
-# ==========================
-
-COLLECTION_NAME = os.getenv(
-    "COLLECTION_NAME",
-    "company_documents"
-)
-
-# ==========================
-# Embedding Configuration
-# ==========================
-
-VECTOR_SIZE = int(os.getenv("VECTOR_SIZE", 768))
-
-# ==========================
-# Similarity Metric
-# ==========================
-
-DISTANCE = os.getenv("DISTANCE", "Cosine")
+VECTOR_SIZE = 768
+DISTANCE = "Cosine"
