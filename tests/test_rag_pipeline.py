@@ -1,11 +1,6 @@
-from app.retrieval.retriever import Retriever
-from app.prompting.prompt_builder import PromptBuilder
-from app.llm.llm import LLM
+from app.rag.rag_pipeline import RAGPipeline
 
-# Initialize components
-retriever = Retriever()
-prompt_builder = PromptBuilder()
-llm = LLM()
+pipeline = RAGPipeline()
 
 print("=" * 80)
 print("RAG DOCUMENT ASSISTANT")
@@ -13,7 +8,6 @@ print("=" * 80)
 print("Type 'exit' to quit.\n")
 
 while True:
-
     question = input("Question > ").strip()
 
     if question.lower() in ["exit", "quit", "q"]:
@@ -23,12 +17,8 @@ while True:
     if not question:
         continue
 
-    chunks = retriever.retrieve(question)
-
-    prompt = prompt_builder.build(question, chunks)
-
-    response = llm.generate(prompt)
+    answer, _ = pipeline.ask(question)
 
     print("\nAnswer:")
-    print(response)
+    print(answer)
     print("\n" + "-" * 80 + "\n")
