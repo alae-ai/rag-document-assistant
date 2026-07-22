@@ -5,6 +5,9 @@ from app.llm.config import (
     TEMPERATURE,
     NUM_CTX,
 )
+from app.utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 
 class LLM:
@@ -14,6 +17,10 @@ class LLM:
 
     def __init__(self):
         self.model = OLLAMA_MODEL
+
+        logger.debug(
+            f"LLM initialized with model '{self.model}'."
+        )
 
     def generate(self, prompt):
         """
@@ -25,19 +32,31 @@ class LLM:
         Returns:
             str: Model response.
         """
+        try:
+            logger.info(
+                f"Sending prompt to model '{self.model}'."
+            )
 
-        response = ollama.chat(
-            model=self.model,
-            messages=[
-                {
-                    "role": "user",
-                    "content": prompt,
-                }
-            ],
-            options={
-                "temperature": TEMPERATURE,
-                "num_ctx": NUM_CTX,
-            },
-        )
+            response = ollama.chat(
+                model=self.model,
+                messages=[
+                    {
+                        "role": "user",
+                        "content": prompt,
+                    }
+                ],
+                options={
+                    "temperature": TEMPERATURE,
+                    "num_ctx": NUM_CTX,
+                },
+            )
 
-        return response["message"]["content"]
+            logger.info("Response generated successfully.")
+
+            return response["message"]["content"]
+
+        except Exception:
+            logger.exception(
+                f"Failed to generate response with model '{self.model}'."
+            )
+            raise
