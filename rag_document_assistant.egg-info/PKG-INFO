@@ -1,0 +1,6 @@
+Metadata-Version: 2.4
+Name: rag-document-assistant
+Version: 1.0.0
+Summary: A Retrieval-Augmented Generation (RAG) document assistant built with LangChain, Qdrant, Ollama, and Streamlit.
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown

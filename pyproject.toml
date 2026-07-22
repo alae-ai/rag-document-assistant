@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rag-document-assistant"
+version = "1.0.0"
+description = "A Retrieval-Augmented Generation (RAG) document assistant built with LangChain, Qdrant, Ollama, and Streamlit."
+readme = "README.md"
+requires-python = ">=3.11"
+
+[tool.setuptools]
+packages = ["app"]
