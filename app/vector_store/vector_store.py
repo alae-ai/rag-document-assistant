@@ -219,3 +219,41 @@ class VectorStore:
                 COLLECTION_NAME,
             )
             raise
+
+    def list_documents(self):
+        """
+        Return a sorted list of indexed document sources.
+        """
+        try:
+            logger.info("Listing indexed documents.")
+
+            documents = set()
+
+            scroll_result = self.client.scroll(
+                collection_name=COLLECTION_NAME,
+                with_payload=True,
+                with_vectors=False,
+                limit=10000,
+            )
+
+            points = scroll_result[0]
+
+            for point in points:
+                source = point.payload.get("source")
+
+                if source:
+                    documents.add(source)
+
+            documents = sorted(documents)
+
+            logger.info(
+                f"Found {len(documents)} indexed document(s)."
+            )
+
+            return documents
+
+        except Exception:
+            logger.exception(
+                "Failed to list indexed documents."
+            )
+            raise
