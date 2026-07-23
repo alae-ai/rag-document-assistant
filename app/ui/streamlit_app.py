@@ -1,6 +1,7 @@
 import streamlit as st
 
 from app.rag.rag_pipeline import RAGPipeline
+from app.documents.document_manager import DocumentManager
 
 # --------------------------------------------------
 # Page configuration
@@ -21,7 +22,13 @@ def load_pipeline():
     return RAGPipeline()
 
 
+@st.cache_resource
+def load_document_manager():
+    return DocumentManager()
+
+
 pipeline = load_pipeline()
+document_manager = load_document_manager()
 
 # --------------------------------------------------
 # UI
@@ -50,7 +57,7 @@ if st.button("Ask"):
 
     st.subheader("Answer")
 
-    st.write(answer)
+    st.markdown(answer)
 
     with st.expander("Retrieved Sources"):
 
@@ -71,3 +78,17 @@ if st.button("Ask"):
                 st.write(text)
 
                 st.divider()
+
+
+    with st.sidebar:
+
+        st.header("📂 Documents")
+
+        documents = document_manager.list_documents()
+
+        if not documents:
+            st.info("No indexed documents.")
+
+        else:
+            for document in documents:
+                st.write(f"📄 {document}")

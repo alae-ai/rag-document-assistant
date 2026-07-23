@@ -76,3 +76,36 @@ class DocumentManager:
             file_path.name,
             len(chunks),
         )
+
+    def remove_document(self, document_name: str):
+        """
+        Remove a document from the vector database.
+
+        Args:
+            document_name (str): File name
+                                (e.g. "company_policy.txt")
+        """
+
+        self.vector_store.delete_document(document_name)
+
+    def list_documents(self):
+        """
+        Return all indexed documents.
+        """
+
+        return self.vector_store.list_documents()
+
+    def clear_database(self):
+        """
+        Remove every indexed document.
+        """
+
+        self.vector_store.clear_collection()
+
+    def get_statistics(self):
+        """
+        Return document database statistics.
+        """
+
+        return self.vector_store.get_statistics()
+
