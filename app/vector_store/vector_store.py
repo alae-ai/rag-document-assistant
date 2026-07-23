@@ -23,6 +23,8 @@ logger = get_logger(__name__)
 
 from pathlib import Path
 
+from qdrant_client.models import FilterSelector, Filter
+
 class VectorStore:
     """
     Handles all interactions with the Qdrant vector database.
@@ -187,3 +189,33 @@ class VectorStore:
             )
             raise
         
+    def clear_collection(self):
+        """
+        Remove all vectors from the collection while keeping
+        the collection itself.
+        """
+
+        try:
+            logger.warning(
+                "Removing all vectors from collection '%s'.",
+                COLLECTION_NAME,
+            )
+
+            self.client.delete(
+                collection_name=COLLECTION_NAME,
+                points_selector=FilterSelector(
+                    filter=Filter()
+                ),
+            )
+
+            logger.info(
+                "Collection '%s' has been cleared.",
+                COLLECTION_NAME,
+            )
+
+        except Exception:
+            logger.exception(
+                "Failed to clear collection '%s'.",
+                COLLECTION_NAME,
+            )
+            raise
