@@ -21,6 +21,7 @@ from app.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
+from pathlib import Path
 
 class VectorStore:
     """
@@ -108,7 +109,7 @@ class VectorStore:
                     vector=embedding,
                     payload={
                         "text": doc.page_content,
-                        "source": doc.metadata.get("source", ""),
+                        "source": Path(doc.metadata.get("source", "")).name,
                         "chunk_id": i,
                     },
                 )
@@ -141,7 +142,7 @@ class VectorStore:
         return self.client.count(
             collection_name=COLLECTION_NAME
         ).count
-        
+
     def document_exists(self, source: str) -> bool:
         """
         Check whether a document is already indexed.
