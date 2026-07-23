@@ -5,6 +5,9 @@ from qdrant_client.models import (
     Distance,
     VectorParams,
     PointStruct,
+    Filter,
+    FieldCondition,
+    MatchValue,
 )
 
 from app.embeddings.embedding_model import EmbeddingModel
@@ -138,3 +141,48 @@ class VectorStore:
         return self.client.count(
             collection_name=COLLECTION_NAME
         ).count
+        
+    def document_exists(self, source: str) -> bool:
+        """
+        Check whether a document is already indexed.
+
+        Args:
+            source (str): Document filename.
+
+        Returns:
+            bool: True if the document exists, False otherwise.
+        """
+
+        try:
+            records, _ = self.client.scroll(
+                collection_name=COLLECTION_NAME,
+                scroll_filter=Filter(
+                    must=[
+                        FieldCondition(
+                            key="source",
+                            match=MatchValue(value=source),
+                        )
+                    ]
+                ),
+                limit=1,
+                with_payload=False,
+                with_vectors=False,
+            )
+
+            exists = len(records) > 0
+
+            logger.info(
+                "Document '%s' exists: %s",
+                source,
+                exists,
+            )
+
+            return exists
+
+        except Exception:
+            logger.exception(
+                "Failed to check if document '%s' exists.",
+                source,
+            )
+            raise
+        
