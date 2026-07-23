@@ -14,6 +14,7 @@ certifi==2026.6.17
 charset-normalizer==3.4.8
 click==8.4.2
 distro==1.9.0
+docx2txt==0.9
 durationpy==0.10
 filelock==3.29.5
 flatbuffers==25.12.19
@@ -99,6 +100,7 @@ python-dotenv==1.2.2
 python-multipart==0.0.32
 PyYAML==6.0.3
 qdrant-client==1.18.0
+-e git+https://github.com/alae-ai/rag-document-assistant.git@d5866536969490a244f4eb6f40e00fdbbd7dc067#egg=rag_document_assistant
 referencing==0.37.0
 requests==2.34.2
 requests-oauthlib==2.0.0

@@ -1,6 +1,6 @@
 from app.loaders.loader_factory import LoaderFactory
 
-loader = LoaderFactory.get_loader("data/raw/company_policy.txt")
+loader = LoaderFactory.get_loader("data/raw/Travel and Expense Policy.pdf")
 
 documents = loader.load()
 

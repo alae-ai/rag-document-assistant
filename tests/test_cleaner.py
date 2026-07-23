@@ -1,7 +1,7 @@
 from app.loaders.loader_factory import LoaderFactory
 from app.utils.text_cleaner import TextCleaner
 
-loader = LoaderFactory.get_loader("data/raw/company_policy.txt")
+loader = LoaderFactory.get_loader("data/raw/Travel and Expense Policy.pdf")
 
 documents = loader.load()
 
