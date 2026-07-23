@@ -8,6 +8,7 @@ from qdrant_client.models import (
     Filter,
     FieldCondition,
     MatchValue,
+    FilterSelector,
 )
 
 from app.embeddings.embedding_model import EmbeddingModel
@@ -255,5 +256,62 @@ class VectorStore:
         except Exception:
             logger.exception(
                 "Failed to list indexed documents."
+            )
+            raise
+
+    def delete_document(self, source: str):
+        """
+        Delete all vectors belonging to a document.
+
+        Args:
+            source (str): Document name stored in the payload
+                        (e.g. "company_policy.txt").
+        """
+        try:
+            logger.info(f"Deleting document '{source}'.")
+
+            self.client.delete(
+                collection_name=COLLECTION_NAME,
+                points_selector=FilterSelector(
+                    filter=Filter(
+                        must=[
+                            FieldCondition(
+                                key="source",
+                                match=MatchValue(value=source),
+                            )
+                        ]
+                    )
+                ),
+            )
+
+            logger.info(f"Document '{source}' deleted successfully.")
+
+        except Exception:
+            logger.exception(
+                f"Failed to delete document '{source}'."
+            )
+            raise
+        
+    def get_statistics(self):
+        """
+        Return collection statistics.
+        """
+        try:
+            logger.info("Collecting vector store statistics.")
+
+            statistics = {
+                "documents": len(self.list_documents()),
+                "vectors": self.count_vectors(),
+            }
+
+            logger.info(
+                f"Statistics: {statistics}"
+            )
+
+            return statistics
+
+        except Exception:
+            logger.exception(
+                "Failed to retrieve vector store statistics."
             )
             raise

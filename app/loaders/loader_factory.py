@@ -16,7 +16,7 @@ class LoaderFactory:
     """
 
     @staticmethod
-    def get_loader(file_path: str):
+    def get_loader(file_path: str): 
         """
         Return the appropriate loader for the given file.
 
