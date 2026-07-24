@@ -3,6 +3,8 @@ import streamlit as st
 from app.rag.rag_pipeline import RAGPipeline
 from app.documents.document_manager import DocumentManager
 
+from pathlib import Path
+import tempfile
 # --------------------------------------------------
 # Page configuration
 # --------------------------------------------------
@@ -79,62 +81,144 @@ if st.button("Ask"):
 
                 st.divider()
 
-    with st.sidebar:
+with st.sidebar:
+
+
 
         st.header("📂 Document Management")
 
+
+
         # -------------------------
+
         # Statistics
+
         # -------------------------
+
+
 
         st.subheader("Statistics")
 
+
+
         stats = document_manager.get_statistics()
 
-        st.metric(
-            "Indexed Documents",
-            stats["documents"],
-        )
+
 
         st.metric(
-            "Vectors",
-            stats["vectors"],
+
+            "Indexed Documents",
+
+            stats["documents"],
+
         )
+
+
+
+        st.metric(
+
+            "Vectors",
+
+            stats["vectors"],
+
+        )
+
+
 
         st.divider()
 
+
+
         # -------------------------
+
         # Documents
+
         # -------------------------
+
+
 
         st.subheader("Indexed Documents")
 
+
+
         documents = document_manager.list_documents()
 
+
+
         if not documents:
+
             st.info("No indexed documents.")
+
+
 
         else:
 
+
+
             for document in documents:
+
                 st.write(f"📄 {document}")
 
+
+
         st.divider()
 
+
+
         # -------------------------
+
         # Upload
+
         # -------------------------
 
-        st.subheader("Upload")
 
-        st.info("Coming next...")
+        st.subheader("Upload Document")
+
+        if "uploader_key" not in st.session_state:
+            st.session_state.uploader_key = 0
+
+        uploaded_file = st.file_uploader(
+            "Choose a document",
+            type=["pdf", "docx", "txt"],
+        )
+
+        if uploaded_file is not None:
+
+            st.success(f"Selected: {uploaded_file.name}")
+
+            if st.button("Index Document"):
+
+                destination = Path("data/raw") / uploaded_file.name
+
+                destination.write_bytes(
+                    uploaded_file.getbuffer()
+                )
+
+                document_manager.add_document(
+                    str(destination)
+                )
+
+                st.success(
+                    f"{uploaded_file.name} indexed successfully."
+                )
+                st.session_state.uploader_key += 1
+                st.rerun()
 
         st.divider()
 
+
+
         # -------------------------
+
         # Danger Zone
+
         # -------------------------
+
+
 
         st.subheader("Danger Zone")
 
+
+
         st.info("Coming next...")
+    

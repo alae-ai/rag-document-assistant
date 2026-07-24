@@ -46,6 +46,17 @@ class DocumentManager:
             logger.error("Document not found: %s", file_path)
             raise FileNotFoundError(file_path)
 
+
+        # -----------------------------
+        # Duplicate check
+        # -----------------------------
+
+        if self.document_exists(file_path.name):
+            logger.warning(
+                "Document '%s' already exists.",
+                file_path.name,
+            )
+            return False
         # -----------------------------
         # Load
         # -----------------------------
@@ -76,6 +87,7 @@ class DocumentManager:
             file_path.name,
             len(chunks),
         )
+        return True
 
     def remove_document(self, document_name: str):
         """
@@ -87,6 +99,23 @@ class DocumentManager:
         """
 
         self.vector_store.delete_document(document_name)
+
+
+    def document_exists(self, filename: str) -> bool:
+        """
+        Check whether a document is already indexed.
+
+        Args:
+            filename (str): Document filename.
+
+        Returns:
+            bool: True if document exists, False otherwise.
+        """
+
+        documents = self.list_documents()
+
+        return filename in documents
+
 
     def list_documents(self):
         """
