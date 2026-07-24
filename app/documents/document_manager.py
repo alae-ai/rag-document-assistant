@@ -109,3 +109,31 @@ class DocumentManager:
 
         return self.vector_store.get_statistics()
 
+    def replace_document(self, file_path: str):
+        """
+        Replace an indexed document with a new version.
+
+        If a document with the same filename already exists,
+        it is removed before indexing the new one.
+
+        Parameters
+        ----------
+        file_path : str
+            Path to the new document.
+        """
+
+        filename = Path(file_path).name
+
+        logger.info(
+            f"Replacing document '{filename}'."
+        )
+
+        if self.document_exists(filename):
+
+            self.delete_document(filename)
+
+        self.add_document(file_path)
+
+        logger.info(
+            f"Document '{filename}' replaced successfully."
+        )
