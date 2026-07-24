@@ -171,16 +171,18 @@ with st.sidebar:
 
         # -------------------------
 
-
         st.subheader("Upload Document")
 
         if "uploader_key" not in st.session_state:
             st.session_state.uploader_key = 0
 
+
         uploaded_file = st.file_uploader(
             "Choose a document",
             type=["pdf", "docx", "txt"],
+            key=f"uploader_{st.session_state.uploader_key}",
         )
+
 
         if uploaded_file is not None:
 
@@ -194,16 +196,22 @@ with st.sidebar:
                     uploaded_file.getbuffer()
                 )
 
-                document_manager.add_document(
+                result = document_manager.add_document(
                     str(destination)
                 )
 
-                st.success(
-                    f"{uploaded_file.name} indexed successfully."
-                )
-                st.session_state.uploader_key += 1
-                st.rerun()
+                if result:
+                    st.success(
+                        f"✅ {uploaded_file.name} indexed successfully."
+                    )
 
+                    st.session_state.uploader_key += 1
+                    st.rerun()
+
+                else:
+                    st.warning(
+                        f"⚠️ {uploaded_file.name} already exists."
+                    )      
         st.divider()
 
 

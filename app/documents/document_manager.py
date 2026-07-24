@@ -112,9 +112,7 @@ class DocumentManager:
             bool: True if document exists, False otherwise.
         """
 
-        documents = self.list_documents()
-
-        return filename in documents
+        return self.vector_store.document_exists(filename)
 
 
     def list_documents(self):
