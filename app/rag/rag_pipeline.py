@@ -2,6 +2,9 @@ from app.llm.llm import LLM
 from app.prompting.prompt_builder import PromptBuilder
 from app.retrieval.retriever import Retriever
 
+from app.conversation.intent_classifier import IntentClassifier
+from app.conversation.intent import Intent
+
 from app.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -27,6 +30,7 @@ class RAGPipeline:
         self.retriever = Retriever()
         self.prompt_builder = PromptBuilder()
         self.llm = LLM()
+        self.intent_classifier = IntentClassifier(self.llm)
 
     def ask(self, question: str):
         """
@@ -44,6 +48,20 @@ class RAGPipeline:
         logger.info("Starting RAG pipeline.")
 
         try:
+            # Determine user intent
+            intent = self.intent_classifier.classify(question)
+
+            # General conversation → no retrieval
+            if intent == Intent.CHAT:
+
+                logger.info("General conversation detected.")
+
+                prompt = self.prompt_builder.build_chat_prompt(question)
+
+                answer = self.llm.generate(prompt)
+
+                return answer, []
+
             # Retrieve relevant chunks
             chunks = self.retriever.retrieve(question)
 

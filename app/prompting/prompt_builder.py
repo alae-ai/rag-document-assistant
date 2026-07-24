@@ -15,10 +15,49 @@ class PromptBuilder:
     """
 
     def __init__(self):
-        prompt_path = Path("prompts") / PROMPT_TEMPLATE
+        self.system_prompt = self._load_prompt(PROMPT_TEMPLATE)
+    
+    def _load_prompt(self, filename: str) -> str:
+        """
+        Load a prompt template from the prompts directory.
+
+        Parameters
+        ----------
+        filename : str
+            Prompt filename.
+
+        Returns
+        -------
+        str
+            Prompt content.
+        """
+
+        prompt_path = Path("prompts") / filename
 
         with open(prompt_path, "r", encoding="utf-8") as f:
-            self.system_prompt = f.read().strip()
+            return f.read().strip()
+
+    def build_intent_prompt(self, message: str) -> str:
+        """
+        Build the prompt used for intent classification.
+
+        Parameters
+        ----------
+        message : str
+            User message.
+
+        Returns
+        -------
+        str
+            Complete intent classification prompt.
+        """
+
+        prompt = self._load_prompt(
+            "intent_classifier_prompt.txt"
+        )
+
+        return prompt.format(message=message)
+
 
     def build(self, question, retrieved_chunks):
         """
@@ -71,5 +110,37 @@ QUESTION
 ANSWER
 ==============================
 """
+
+        return prompt.strip()
+
+
+    def build_chat_prompt(self, message: str) -> str:
+        """
+        Build a prompt for general conversation.
+
+        Parameters
+        ----------
+        message : str
+            User message.
+
+        Returns
+        -------
+        str
+            Complete chat prompt.
+        """
+
+        prompt = f"""
+    {self.system_prompt}
+
+    ==============================
+    USER MESSAGE
+    ==============================
+
+    {message}
+
+    ==============================
+    ANSWER
+    ==============================
+    """
 
         return prompt.strip()
