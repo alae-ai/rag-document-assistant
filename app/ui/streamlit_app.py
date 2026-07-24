@@ -79,10 +79,35 @@ if st.button("Ask"):
 
                 st.divider()
 
-
     with st.sidebar:
 
-        st.header("📂 Documents")
+        st.header("📂 Document Management")
+
+        # -------------------------
+        # Statistics
+        # -------------------------
+
+        st.subheader("Statistics")
+
+        stats = document_manager.get_statistics()
+
+        st.metric(
+            "Indexed Documents",
+            stats["documents"],
+        )
+
+        st.metric(
+            "Vectors",
+            stats["vectors"],
+        )
+
+        st.divider()
+
+        # -------------------------
+        # Documents
+        # -------------------------
+
+        st.subheader("Indexed Documents")
 
         documents = document_manager.list_documents()
 
@@ -90,5 +115,26 @@ if st.button("Ask"):
             st.info("No indexed documents.")
 
         else:
+
             for document in documents:
                 st.write(f"📄 {document}")
+
+        st.divider()
+
+        # -------------------------
+        # Upload
+        # -------------------------
+
+        st.subheader("Upload")
+
+        st.info("Coming next...")
+
+        st.divider()
+
+        # -------------------------
+        # Danger Zone
+        # -------------------------
+
+        st.subheader("Danger Zone")
+
+        st.info("Coming next...")
