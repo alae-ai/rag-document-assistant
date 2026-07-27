@@ -107,7 +107,7 @@ class DocumentManager:
 
         Args:
             filename (str): Document filename.
-
+ac
         Returns:
             bool: True if document exists, False otherwise.
         """

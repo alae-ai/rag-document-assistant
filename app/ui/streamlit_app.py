@@ -209,9 +209,47 @@ with st.sidebar:
                     st.rerun()
 
                 else:
+
                     st.warning(
                         f"⚠️ {uploaded_file.name} already exists."
-                    )      
+                    )
+
+                    col1, col2 = st.columns(2)
+
+                    with col1:
+
+                        if st.button(
+                            "🔄 Replace Document",
+                            key=f"replace_{uploaded_file.name}",
+                        ):
+
+                            document_manager.replace_document(
+                                str(destination)
+                            )
+
+                            
+
+                            st.success(
+                                f"✅ {uploaded_file.name} replaced successfully."
+                            )
+                            
+                            st.session_state.uploader_key += 1
+
+                            st.rerun()
+
+                    with col2:
+
+                        if st.button(
+                            "❌ Cancel",
+                            key=f"cancel_{uploaded_file.name}",
+                        ):
+
+                            st.info("Replacement cancelled.")
+                        
+                            st.session_state.uploader_key += 1
+
+
+                            st.rerun()
         st.divider()
 
 
