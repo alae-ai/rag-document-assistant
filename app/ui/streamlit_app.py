@@ -135,31 +135,76 @@ with st.sidebar:
 
         # -------------------------
 
-
-
-        st.subheader("Indexed Documents")
-
-
+        
 
         documents = document_manager.list_documents()
 
-
-
         if not documents:
-
             st.info("No indexed documents.")
-
-
 
         else:
 
-
+            st.subheader("Indexed Documents")
 
             for document in documents:
 
-                st.write(f"📄 {document}")
+                col1, col2 = st.columns([5, 1])
 
+                with col1:
+                    st.write(f"📄 {document}")
 
+                with col2:
+
+                    if st.button(
+                        "🗑️",
+                        key=f"delete_{document}",
+                        help="Remove document",
+                    ):
+
+                        st.session_state.document_to_delete = document
+
+                        st.rerun()
+
+        if "document_to_delete" not in st.session_state:
+            st.session_state.document_to_delete = None
+
+        if st.session_state.document_to_delete is not None:
+
+            document = st.session_state.document_to_delete
+
+            st.warning(
+                f"Delete '{document}'?"
+            )
+
+            col1, col2 = st.columns(2)
+
+            with col1:
+
+                if st.button(
+                    "✅ Delete",
+                    key="confirm_delete",
+                ):
+
+                    document_manager.remove_document(document)
+
+                    st.success(
+                        f"{document} removed successfully."
+                    )
+
+                    st.session_state.document_to_delete = None
+
+                    st.rerun()
+
+            with col2:
+
+                if st.button(
+                    "❌ Cancel",
+                    key="cancel_delete",
+                ):
+
+                    st.session_state.document_to_delete = None
+
+                    st.rerun()
 
         st.divider()
 

@@ -89,17 +89,48 @@ class DocumentManager:
         )
         return True
 
+from pathlib import Path
+
     def remove_document(self, document_name: str):
         """
-        Remove a document from the vector database.
+        Remove a document from the vector database
+        and from the local storage.
 
         Args:
-            document_name (str): File name
-                                (e.g. "company_policy.txt")
+            document_name (str): File name.
         """
 
+        logger.info(
+            "Removing document '%s'.",
+            document_name,
+        )
+
+        # Remove vectors
         self.vector_store.delete_document(document_name)
 
+        # Remove local file
+        file_path = Path("data/raw") / document_name
+
+        if file_path.exists():
+            file_path.unlink()
+
+            logger.info(
+                "Deleted file '%s'.",
+                document_name,
+            )
+
+        else:
+            logger.warning(
+                "File '%s' not found on disk.",
+                document_name,
+            )
+
+        logger.info(
+            "Document '%s' removed successfully.",
+            document_name,
+        )
+
+        return True
 
     def document_exists(self, filename: str) -> bool:
         """
@@ -107,7 +138,7 @@ class DocumentManager:
 
         Args:
             filename (str): Document filename.
-ac
+            
         Returns:
             bool: True if document exists, False otherwise.
         """
