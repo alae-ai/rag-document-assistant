@@ -151,7 +151,7 @@ with st.sidebar:
                 col1, col2 = st.columns([5, 1])
 
                 with col1:
-                    st.write(f"📄 {document}")
+                    st.write(f"{document}")
 
                 with col2:
 
@@ -181,7 +181,7 @@ with st.sidebar:
             with col1:
 
                 if st.button(
-                    "✅ Delete",
+                    "Delete",
                     key="confirm_delete",
                 ):
 
@@ -198,7 +198,7 @@ with st.sidebar:
             with col2:
 
                 if st.button(
-                    "❌ Cancel",
+                    "Cancel",
                     key="cancel_delete",
                 ):
 
@@ -247,7 +247,7 @@ with st.sidebar:
 
                 if result:
                     st.success(
-                        f"✅ {uploaded_file.name} indexed successfully."
+                        f"{uploaded_file.name} indexed successfully."
                     )
 
                     st.session_state.uploader_key += 1
@@ -256,7 +256,7 @@ with st.sidebar:
                 else:
 
                     st.warning(
-                        f"⚠️ {uploaded_file.name} already exists."
+                        f"{uploaded_file.name} already exists."
                     )
 
                     col1, col2 = st.columns(2)
@@ -264,7 +264,7 @@ with st.sidebar:
                     with col1:
 
                         if st.button(
-                            "🔄 Replace Document",
+                            "Replace Document",
                             key=f"replace_{uploaded_file.name}",
                         ):
 
@@ -275,7 +275,7 @@ with st.sidebar:
                             
 
                             st.success(
-                                f"✅ {uploaded_file.name} replaced successfully."
+                                f"{uploaded_file.name} replaced successfully."
                             )
                             
                             st.session_state.uploader_key += 1
@@ -285,7 +285,7 @@ with st.sidebar:
                     with col2:
 
                         if st.button(
-                            "❌ Cancel",
+                            "Cancel",
                             key=f"cancel_{uploaded_file.name}",
                         ):
 
@@ -301,15 +301,56 @@ with st.sidebar:
 
         # -------------------------
 
-        # Danger Zone
+        # Clear Database
 
         # -------------------------
 
 
+        st.subheader("Clear Database")
 
-        st.subheader("Danger Zone")
+        if "confirm_clear_database" not in st.session_state:
+            st.session_state.confirm_clear_database = False
 
+        if not st.session_state.confirm_clear_database:
 
+            if st.button(
+                "Clear Database",
+                key="clear_database",
+            ):
+                st.session_state.confirm_clear_database = True
+                st.rerun()
 
-        st.info("Coming next...")
+        else:
+
+            st.warning(
+                "Are you sure? This will remove all indexed documents."
+            )
+
+            col1, col2 = st.columns(2)
+
+            with col1:
+
+                if st.button(
+                    "Yes",
+                    key="confirm_clear",
+                ):
+
+                    document_manager.clear_database()
+
+                    st.session_state.confirm_clear_database = False
+
+                    st.success("Database cleared successfully.")
+
+                    st.rerun()
+
+            with col2:
+
+                if st.button(
+                    "Cancel",
+                    key="cancel_clear",
+                ):
+
+                    st.session_state.confirm_clear_database = False
+
+                    st.rerun()
     

@@ -89,7 +89,7 @@ class DocumentManager:
         )
         return True
 
-from pathlib import Path
+
 
     def remove_document(self, document_name: str):
         """
@@ -109,9 +109,10 @@ from pathlib import Path
         self.vector_store.delete_document(document_name)
 
         # Remove local file
-        file_path = Path("data/raw") / document_name
-
+        file_path = Path.cwd() / "data" / "raw" / document_name
+        
         if file_path.exists():
+
             file_path.unlink()
 
             logger.info(
@@ -120,6 +121,7 @@ from pathlib import Path
             )
 
         else:
+
             logger.warning(
                 "File '%s' not found on disk.",
                 document_name,
@@ -138,7 +140,7 @@ from pathlib import Path
 
         Args:
             filename (str): Document filename.
-            
+
         Returns:
             bool: True if document exists, False otherwise.
         """
