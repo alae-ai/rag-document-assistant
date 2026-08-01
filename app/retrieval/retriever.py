@@ -50,7 +50,9 @@ class Retriever:
             logger.info(
                 f"Retrieved {len(results.points)} matching chunk(s)."
             )
-
+            logger.info("TOP_K = %d", TOP_K)
+            logger.info("Qdrant returned %d points", len(results.points))
+            
             return results.points
 
         except Exception:

@@ -67,7 +67,7 @@ if st.button("Ask"):
             st.info("No relevant documents found.")
 
         else:
-
+            st.write(f"Chunks received by UI: {len(chunks)}")
             for i, chunk in enumerate(chunks, start=1):
 
                 payload = chunk.payload

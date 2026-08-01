@@ -75,7 +75,7 @@ class RAGPipeline:
             answer = self.llm.generate(prompt)
 
             logger.info("RAG pipeline completed successfully.")
-
+            logger.info("Pipeline returning %d chunks", len(chunks))
             return answer, chunks
 
         except Exception:

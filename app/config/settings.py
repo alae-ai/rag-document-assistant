@@ -50,28 +50,28 @@ QDRANT_COLLECTION = os.getenv("QDRANT_COLLECTION")
 # Retrieval
 # -----------------------------------------------------------------------------
 
-TOP_K = int(os.getenv("TOP_K", "3"))
-SIMILARITY_THRESHOLD = float(os.getenv("SIMILARITY_THRESHOLD", "0.65"))
+TOP_K = 3
+SIMILARITY_THRESHOLD = 0.65
 
 # -----------------------------------------------------------------------------
 # Chunking
 # -----------------------------------------------------------------------------
 
-CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", "80"))
-CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", "20"))
+CHUNK_SIZE = 80
+CHUNK_OVERLAP = 20
 
 # -----------------------------------------------------------------------------
 # Documents
 # -----------------------------------------------------------------------------
 
-DOCUMENTS_PATH = os.getenv("DOCUMENTS_PATH")
+DOCUMENTS_PATH = "data/raw"
 
 # -----------------------------------------------------------------------------
 # Logging
 # -----------------------------------------------------------------------------
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
-LOG_FILE = os.getenv("LOG_FILE", "logs/rag.log")
+LOG_FILE=os.getenv("LOG_FILE", "logs/rag.log")
 
 # -----------------------------------------------------------------------------
 # Streamlit
