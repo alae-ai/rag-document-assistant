@@ -190,7 +190,7 @@ class DocumentManager:
 
         if self.document_exists(filename):
 
-            self.delete_document(filename)
+            self.remove_document(filename)
 
         self.add_document(file_path)
 

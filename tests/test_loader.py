@@ -1,13 +1,28 @@
 from app.loaders.loader_factory import LoaderFactory
 
-loader = LoaderFactory.get_loader("data/raw/Travel and Expense Policy.pdf")
 
-documents = loader.load()
+def test_loader():
 
-print(f"Documents loaded: {len(documents)}")
+    loader = LoaderFactory.get_loader(
+        "data/raw/Travel and Expense Policy.pdf"
+    )
 
-print("\nMetadata:")
-print(documents[0].metadata)
+    documents = loader.load()
 
-print("\nContent:")
-print(documents[0].page_content)
+    # At least one document should be loaded.
+    assert len(documents) > 0
+
+    # The loaded document should not be empty.
+    assert documents[0].page_content.strip() != ""
+
+    # Metadata should contain the source.
+    assert "source" in documents[0].metadata
+
+    # The source should correspond to the loaded file.
+    assert (
+        documents[0].metadata["source"].endswith(
+            "Travel and Expense Policy.pdf"
+        )
+    )
+
+    print("test_loader passed")

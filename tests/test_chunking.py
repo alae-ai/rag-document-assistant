@@ -2,22 +2,38 @@ from app.loaders.loader_factory import LoaderFactory
 from app.utils.text_cleaner import TextCleaner
 from app.chunking.chunker import Chunker
 
-# Load document
-loader = LoaderFactory.get_loader("data/raw/company_policy.txt")
-documents = loader.load()
 
-# Clean document
-documents = TextCleaner.clean_documents(documents)
+def test_chunking():
 
-# Chunk document
-chunker = Chunker()
-chunks = chunker.split_documents(documents)
+    # Load document
+    loader = LoaderFactory.get_loader(
+        "data/raw/company_policy.txt"
+    )
+    documents = loader.load()
 
-print(f"Original documents : {len(documents)}")
-print(f"Generated chunks   : {len(chunks)}")
+    # Clean document
+    documents = TextCleaner.clean_documents(documents)
 
-print("\nFirst chunk:\n")
-print(chunks[0].page_content)
+    # Chunk document
+    chunker = Chunker()
+    chunks = chunker.split_documents(documents)
 
-print("\nMetadata:\n")
-print(chunks[0].metadata)
+    # At least one chunk should be created.
+    assert len(chunks) > 0
+
+    # Every chunk should contain text.
+    assert all(
+        chunk.page_content.strip() != ""
+        for chunk in chunks
+    )
+
+    # Metadata should be preserved.
+    assert all(
+        "source" in chunk.metadata
+        for chunk in chunks
+    )
+
+    # Chunking should never reduce to zero chunks.
+    assert len(chunks) >= len(documents)
+
+    print("✓ test_chunking passed")
