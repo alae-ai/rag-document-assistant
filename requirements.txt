@@ -103,7 +103,6 @@ python-dotenv==1.2.2
 python-multipart==0.0.32
 PyYAML==6.0.3
 qdrant-client==1.18.0
--e git+https://github.com/alae-ai/rag-document-assistant.git@97abf3e5e0b00d13e822b732a3f1ab4721e185cd#egg=rag_document_assistant
 referencing==0.37.0
 requests==2.34.2
 requests-oauthlib==2.0.0
