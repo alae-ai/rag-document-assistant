@@ -4,7 +4,7 @@ from app.loaders.loader_factory import LoaderFactory
 def test_loader():
 
     loader = LoaderFactory.get_loader(
-        "data/raw/Travel and Expense Policy.pdf"
+        "data/tmp/Travel and Expense Policy.pdf"
     )
 
     documents = loader.load()

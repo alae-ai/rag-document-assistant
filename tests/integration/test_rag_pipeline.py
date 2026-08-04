@@ -1,11 +1,23 @@
 from app.rag.rag_pipeline import RAGPipeline
+from app.documents.document_manager import DocumentManager
 
 
 def test_rag_pipeline():
 
+    manager = DocumentManager()
+    
+    # Start from a clean database
+    manager.clear_database()
+
+    file_path = "data/tmp/company_policy.txt"
+    filename = "company_policy.txt"
+
+    # Add the document
+    manager.add_document(file_path)
+
     pipeline = RAGPipeline()
 
-    question = "What is the travel policy?"
+    question = "What is the company policy?"
 
     answer, chunks = pipeline.ask(question)
 

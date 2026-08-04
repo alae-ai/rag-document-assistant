@@ -1,3 +1,5 @@
+from app.documents.document_manager import DocumentManager
+
 def test_document_exists():
 
     manager = DocumentManager()
@@ -5,7 +7,7 @@ def test_document_exists():
     # Start from a clean database
     manager.clear_database()
 
-    file_path = "data/raw/company_policy.txt"
+    file_path = "data/tmp/company_policy.txt"
     filename = "company_policy.txt"
 
     # Add the document

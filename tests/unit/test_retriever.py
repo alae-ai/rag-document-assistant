@@ -1,9 +1,21 @@
 from app.retrieval.retriever import Retriever
+from app.documents.document_manager import DocumentManager
+
 
 
 def test_retriever():
 
     retriever = Retriever()
+    manager = DocumentManager()
+    
+    # Start from a clean database
+    manager.clear_database()
+
+    file_path = "data/tmp/company_policy.txt"
+    filename = "company_policy.txt"
+
+    # Add the document
+    manager.add_document(file_path)
 
     query = "How many remote work days are employees allowed?"
 

@@ -5,7 +5,7 @@ from app.utils.text_cleaner import TextCleaner
 def test_cleaner():
 
     loader = LoaderFactory.get_loader(
-        "data/raw/Travel and Expense Policy.pdf"
+        "data/tmp/Travel and Expense Policy.pdf"
     )
 
     documents = loader.load()

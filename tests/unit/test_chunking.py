@@ -7,7 +7,7 @@ def test_chunking():
 
     # Load document
     loader = LoaderFactory.get_loader(
-        "data/raw/company_policy.txt"
+        "data/tmp/company_policy.txt"
     )
     documents = loader.load()
 
