@@ -9,5 +9,5 @@ description = "A Retrieval-Augmented Generation (RAG) document assistant built w
 readme = "README.md"
 requires-python = ">=3.11"
 
-[tool.setuptools]
-packages = ["app"]
+[tool.setuptools.packages.find]
+include = ["app*"]
