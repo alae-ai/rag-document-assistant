@@ -2,10 +2,11 @@ from app.conversation.intent_classifier import IntentClassifier
 from app.llm.llm import LLM
 
 
-def main():
+def test_intent_classifier():
+
     classifier = IntentClassifier(LLM())
 
-    test_messages = [
+    chat_messages = [
         "Hi",
         "Hello!",
         "Bonjour",
@@ -14,6 +15,9 @@ def main():
         "Goodbye",
         "Who are you?",
         "What can you do?",
+    ]
+
+    rag_messages = [
         "What's the password policy?",
         "Can employees work remotely?",
         "How do I submit an expense report?",
@@ -21,17 +25,12 @@ def main():
         "Comment réinitialiser mon mot de passe ?",
     ]
 
-    print("=" * 80)
-    print("Intent Classifier Test")
-    print("=" * 80)
-
-    for message in test_messages:
+    for message in chat_messages:
         intent = classifier.classify(message)
 
-        print(f"Message : {message}")
-        print(f"Intent  : {intent.value}")
-        print("-" * 80)
+        assert intent.value == "CHAT"
 
+    for message in rag_messages:
+        intent = classifier.classify(message)
 
-if __name__ == "__main__":
-    main()
+        assert intent.value == "RAG"
