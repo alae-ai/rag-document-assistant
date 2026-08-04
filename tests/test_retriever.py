@@ -1,24 +1,29 @@
 from app.retrieval.retriever import Retriever
 
-# Initialize retriever
-retriever = Retriever()
 
-# Test query
-query = "How many remote work days are employees allowed?"
+def test_retriever():
 
-print(f"\nQuestion:\n{query}\n")
+    retriever = Retriever()
 
-# Retrieve documents
-results = retriever.retrieve(query)
+    query = "How many remote work days are employees allowed?"
 
-print(f"Retrieved {len(results)} results\n")
+    results = retriever.retrieve(query)
 
-for i, result in enumerate(results, start=1):
-    print("=" * 60)
-    print(f"Result #{i}")
-    print(f"Similarity score : {result.score:.4f}")
-    print(f"Source           : {result.payload['source']}")
-    print(f"Chunk ID         : {result.payload['chunk_id']}")
-    print("\nText:")
-    print(result.payload["text"])
-    print()
+    # Retrieval should return a list of results
+    assert isinstance(results, list)
+
+    # At least one relevant chunk should be retrieved
+    assert len(results) > 0
+
+    # Every result should contain the expected information
+    for result in results:
+
+        assert result.score is not None
+        assert result.payload is not None
+
+        assert "source" in result.payload
+        assert "text" in result.payload
+        assert "chunk_id" in result.payload
+
+        assert isinstance(result.payload["text"], str)
+        assert len(result.payload["text"]) > 0
