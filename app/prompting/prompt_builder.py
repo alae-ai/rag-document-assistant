@@ -1,4 +1,7 @@
 from pathlib import Path
+from app.utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 from app.prompting.config import (
     PROMPT_TEMPLATE,
@@ -34,8 +37,16 @@ class PromptBuilder:
 
         prompt_path = Path("prompts") / filename
 
-        with open(prompt_path, "r", encoding="utf-8") as f:
-            return f.read().strip()
+        try:
+            with open(prompt_path, "r", encoding="utf-8") as f:
+                return f.read().strip()
+
+        except Exception:
+            logger.exception(
+                "Failed to load prompt template '%s'.",
+                prompt_path,
+            )
+            raise
 
     def build_intent_prompt(self, message: str) -> str:
         """
@@ -75,7 +86,7 @@ class PromptBuilder:
 
         for chunk in retrieved_chunks:
 
-            text = chunk.payload["text"]
+            text = chunk.payload.get("text", "")
 
             if INCLUDE_SOURCES:
                 source = chunk.payload.get("source", "Unknown source")

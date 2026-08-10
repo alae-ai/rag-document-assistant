@@ -27,4 +27,11 @@ class Chunker:
         """
         Split a list of LangChain Documents into chunks.
         """
+
+        if documents is None:
+            raise ValueError("documents cannot be None")
+
+        if not documents:
+            return []
+        
         return self.text_splitter.split_documents(documents)

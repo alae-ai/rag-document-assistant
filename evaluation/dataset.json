@@ -1,0 +1,154 @@
+[
+  { "id": 1,
+    "question": "How should employees contact IT support?",
+    "expected_answer": "Employees should contact the IT Help Desk through the internal support portal.",
+    "expected_sources": ["IT Support Policy.docx"]
+  },
+  { "id": 2,
+    "question": "When is IT support available?",
+    "expected_answer": "IT support requests are handled from 8:00 AM to 5:00 PM, Monday to Friday.",
+    "expected_sources": ["IT Support Policy.docx"]
+  },
+  { "id": 3,
+    "question": "What does a new employee receive on their first working day?",
+    "expected_answer": "A new employee receives a company laptop, an email account, and access to the internal collaboration platform.",
+    "expected_sources": ["IT Support Policy.docx"]
+  },
+  { "id": 4,
+    "question": "Who must approve software installation requests?",
+    "expected_answer": "Software installation requests require approval from the employee's department manager.",
+    "expected_sources": ["IT Support Policy.docx"]
+  },
+  { "id": 5,
+    "question": "How often must employees change their passwords?",
+    "expected_answer": "Employees must change their passwords every 90 days.",
+    "expected_sources": ["IT Support Policy.docx"]
+  },
+  { "id": 6,
+    "question": "What is the minimum password length?",
+    "expected_answer": "Passwords must contain at least 12 characters.",
+    "expected_sources": ["IT Support Policy.docx"]
+  },
+  { "id": 7,
+    "question": "What must a company password contain?",
+    "expected_answer": "A password must contain uppercase letters, lowercase letters, numbers, and special characters.",
+    "expected_sources": ["IT Support Policy.docx"]
+  },
+  { "id": 8,
+    "question": "How quickly does IT aim to respond to critical support requests?",
+    "expected_answer": "The IT department aims to respond to critical support requests within 2 hours.",
+    "expected_sources": ["IT Support Policy.docx"]
+  },
+  { "id": 9,
+    "question": "How quickly does IT aim to respond to standard support requests?",
+    "expected_answer": "The IT department aims to respond to standard requests within one business day.",
+    "expected_sources": ["IT Support Policy.docx"]
+  },
+  { "id" : 10,
+    "question": "What should employees do when they experience technical issues?",
+    "expected_answer": "They should contact the IT Help Desk through the internal support portal.",
+    "expected_sources": ["IT Support Policy.docx"]
+  },
+
+  { "id": 11,
+    "question": "What approval is required before making business travel arrangements?",
+    "expected_answer": "Employees must obtain approval from their manager before making travel arrangements.",
+    "expected_sources": ["Travel and Expense Policy.pdf"]
+  },
+  { "id": 12,
+    "question": "What class should employees use for air travel?",
+    "expected_answer": "Air travel should be booked in economy class unless executive approval is granted.",
+    "expected_sources": ["Travel and Expense Policy.pdf"]
+  },
+  { "id": 13,
+    "question": "When can an employee book business travel in a class other than economy?",
+    "expected_answer": "A class other than economy can be booked when executive approval is granted.",
+    "expected_sources": ["Travel and Expense Policy.pdf"]
+  },
+  { "id": 14,
+    "question": "How much are hotel expenses reimbursed per night?",
+    "expected_answer": "Hotel expenses are reimbursed up to $200 per night.",
+    "expected_sources": ["Travel and Expense Policy.pdf"]
+  },
+  { "id": 15,
+    "question": "What is the daily reimbursement limit for meals?",
+    "expected_answer": "Meal expenses are reimbursed up to $60 per day.",
+    "expected_sources": ["Travel and Expense Policy.pdf"]
+  },
+  { "id": 16,
+    "question": "When must employees submit their expense reports?",
+    "expected_answer": "Expense reports must be submitted within 10 business days after returning from the trip.",
+    "expected_sources": ["Travel and Expense Policy.pdf"]
+  },
+  { "id": 17,
+    "question": "What must be included with an expense report?",
+    "expected_answer": "Expense reports must include all original receipts.",
+    "expected_sources": ["Travel and Expense Policy.pdf"]
+  },
+  { "id": 18,
+    "question": "Are personal entertainment expenses reimbursable?",
+    "expected_answer": "No, personal expenses including entertainment are not reimbursable.",
+    "expected_sources": ["Travel and Expense Policy.pdf"]
+  },
+  { "id": 19,
+    "question": "Is alcohol reimbursable during business travel?",
+    "expected_answer": "No, alcohol expenses are not reimbursable.",
+    "expected_sources": ["Travel and Expense Policy.pdf"]
+  },
+  { "id": 20,
+    "question": "What is the reimbursement rate for using a personal vehicle?",
+    "expected_answer": "Employees using their personal vehicle for business travel are reimbursed at $0.65 per mile.",
+    "expected_sources": ["Travel and Expense Policy.pdf"]
+  },
+
+  { "id": 21,
+    "question": "How many days per week can employees work remotely?",
+    "expected_answer": "Employees are allowed to work remotely up to two days per week.",
+    "expected_sources": ["company_policy.txt"]
+  },
+  { "id": 22,
+    "question": "Who must approve remote work requests?",
+    "expected_answer": "Remote work requests must be approved by the employee's manager.",
+    "expected_sources": ["company_policy.txt"]
+  },
+  { "id": 23,
+    "question": "Does the company provide laptops to full-time employees?",
+    "expected_answer": "Yes, the company provides laptops for all full-time employees.",
+    "expected_sources": ["company_policy.txt"]
+  },
+  { "id": 24,
+    "question": "What is the maximum number of remote work days per week?",
+    "expected_answer": "The maximum is two remote work days per week.",
+    "expected_sources": ["company_policy.txt"]
+  },
+  { "id": 25,
+    "question": "Can employees work remotely without manager approval?",
+    "expected_answer": "No, all remote work requests must be approved by the employee's manager.",
+    "expected_sources": ["company_policy.txt"]
+  },
+  { "id": 26,
+    "question": "Who receives a company laptop under the remote work policy?",
+    "expected_answer": "All full-time employees receive a company laptop.",
+    "expected_sources": ["company_policy.txt"]
+  },
+  { "id": 27,
+    "question": "What is the remote work policy?",
+    "expected_answer": "Employees may work remotely up to two days per week, but remote work requests must be approved by their manager. The company provides laptops to all full-time employees.",
+    "expected_sources": ["company_policy.txt"]
+  },
+  { "id": 28,
+    "question": "How many remote days are allowed each week?",
+    "expected_answer": "Up to two remote work days are allowed per week.",
+    "expected_sources": ["company_policy.txt"]
+  },
+  { "id": 29,
+    "question": "Does remote work require approval?",
+    "expected_answer": "Yes, remote work requests require approval from the employee's manager.",
+    "expected_sources": ["company_policy.txt"]
+  },
+  { "id": 30,
+    "question": "What equipment does the company provide to full-time employees for remote work?",
+    "expected_answer": "The company provides laptops to all full-time employees.",
+    "expected_sources": ["company_policy.txt"]
+  }
+]

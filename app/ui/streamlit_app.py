@@ -4,7 +4,7 @@ from app.rag.rag_pipeline import RAGPipeline
 from app.documents.document_manager import DocumentManager
 
 from pathlib import Path
-import tempfile
+
 # --------------------------------------------------
 # Page configuration
 # --------------------------------------------------
@@ -55,7 +55,12 @@ if st.button("Ask"):
 
     with st.spinner("Searching documents..."):
 
-        answer, chunks = pipeline.ask(question)
+        try:
+            answer, chunks = pipeline.ask(question)
+
+        except Exception as e:
+            st.error(f"Unable to answer your question.\n\n{e}")
+            st.stop()
 
     st.subheader("Answer")
 
@@ -68,6 +73,7 @@ if st.button("Ask"):
 
         else:
             st.write(f"Chunks received by UI: {len(chunks)}")
+
             for i, chunk in enumerate(chunks, start=1):
 
                 payload = chunk.payload
@@ -76,9 +82,7 @@ if st.button("Ask"):
                 text = payload.get("text", "")
 
                 st.markdown(f"**{i}. {source}**")
-
                 st.write(text)
-
                 st.divider()
 
 with st.sidebar:
@@ -101,7 +105,16 @@ with st.sidebar:
 
 
 
-        stats = document_manager.get_statistics()
+        try:
+            stats = document_manager.get_statistics()
+
+        except Exception as e:
+            st.error(f"Unable to retrieve statistics.\n\n{e}")
+
+            stats = {
+                "documents": 0,
+                "vectors": 0,
+            }
 
 
 
@@ -137,7 +150,12 @@ with st.sidebar:
 
         
 
-        documents = document_manager.list_documents()
+        try:
+            documents = document_manager.list_documents()
+
+        except Exception as e:
+            st.error(f"Unable to retrieve document list.\n\n{e}")
+            documents = []
 
         if not documents:
             st.info("No indexed documents.")
@@ -185,7 +203,12 @@ with st.sidebar:
                     key="confirm_delete",
                 ):
 
-                    document_manager.remove_document(document)
+                    try:
+                        document_manager.remove_document(document)
+
+                    except Exception as e:
+                        st.error(f"Unable to remove document.\n\n{e}")
+                        
 
                     st.success(
                         f"{document} removed successfully."
@@ -241,9 +264,19 @@ with st.sidebar:
                     uploaded_file.getbuffer()
                 )
 
-                result = document_manager.add_document(
-                    str(destination)
-                )
+                try:
+                    result = document_manager.add_document(
+                        str(destination)
+                    )
+
+                except Exception as e:
+
+                    if destination.exists():
+                        destination.unlink()
+
+                    st.error(f"Unable to index document.\n\n{e}")
+                    
+
 
                 if result:
                     st.success(
@@ -268,10 +301,17 @@ with st.sidebar:
                             key=f"replace_{uploaded_file.name}",
                         ):
 
-                            document_manager.replace_document(
-                                str(destination)
-                            )
+                            try:
+                                document_manager.replace_document(
+                                    str(destination)
+                                )
 
+                            except Exception as e:
+
+                                if destination.exists():
+                                    destination.unlink()
+
+                                st.error(f"Unable to replace document.\n\n{e}")
                             
 
                             st.success(
@@ -335,7 +375,11 @@ with st.sidebar:
                     key="confirm_clear",
                 ):
 
-                    document_manager.clear_database()
+                    try:
+                        document_manager.clear_database()
+
+                    except Exception as e:
+                        st.error(f"Unable to clear database.\n\n{e}")
 
                     st.session_state.confirm_clear_database = False
 

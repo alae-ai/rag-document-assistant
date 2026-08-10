@@ -46,7 +46,6 @@ class DocumentManager:
             logger.error("Document not found: %s", file_path)
             raise FileNotFoundError(file_path)
 
-
         # -----------------------------
         # Duplicate check
         # -----------------------------
@@ -57,37 +56,47 @@ class DocumentManager:
                 file_path.name,
             )
             return False
-        # -----------------------------
-        # Load
-        # -----------------------------
 
-        loader = LoaderFactory.get_loader(str(file_path))
-        documents = loader.load()
+        try:
+            # -----------------------------
+            # Load
+            # -----------------------------
 
-        # -----------------------------
-        # Clean
-        # -----------------------------
+            loader = LoaderFactory.get_loader(str(file_path))
+            documents = loader.load()
 
-        documents = TextCleaner.clean_documents(documents)
+            # -----------------------------
+            # Clean
+            # -----------------------------
 
-        # -----------------------------
-        # Chunk
-        # -----------------------------
+            documents = TextCleaner.clean_documents(documents)
 
-        chunks = self.chunker.split_documents(documents)
+            # -----------------------------
+            # Chunk
+            # -----------------------------
 
-        # -----------------------------
-        # Store
-        # -----------------------------
+            chunks = self.chunker.split_documents(documents)
 
-        self.vector_store.add_documents(chunks)
+            # -----------------------------
+            # Store
+            # -----------------------------
 
-        logger.info(
-            "Document '%s' indexed successfully (%d chunks).",
-            file_path.name,
-            len(chunks),
-        )
-        return True
+            self.vector_store.add_documents(chunks)
+
+            logger.info(
+                "Document '%s' indexed successfully (%d chunks).",
+                file_path.name,
+                len(chunks),
+            )
+
+            return True
+
+        except Exception:
+            logger.exception(
+                "Failed to index document '%s'.",
+                file_path.name,
+            )
+            raise
 
 
 
@@ -170,30 +179,43 @@ class DocumentManager:
         return self.vector_store.get_statistics()
 
     def replace_document(self, file_path: str):
-        """
-        Replace an indexed document with a new version.
-
-        If a document with the same filename already exists,
-        it is removed before indexing the new one.
-
-        Parameters
-        ----------
-        file_path : str
-            Path to the new document.
-        """
-
         filename = Path(file_path).name
 
         logger.info(
-            f"Replacing document '{filename}'."
+            "Replacing document '%s'.",
+            filename,
         )
 
-        if self.document_exists(filename):
+        try:
+            if not Path(file_path).exists():
+                logger.error(
+                    "Replacement document not found: %s",
+                    file_path,
+                )
+                raise FileNotFoundError(file_path)
 
-            self.remove_document(filename)
+            if self.document_exists(filename):
+                self.remove_document(filename)
 
-        self.add_document(file_path)
+            result = self.add_document(file_path)
 
-        logger.info(
-            f"Document '{filename}' replaced successfully."
-        )
+            if not result:
+                logger.warning(
+                    "Document '%s' was not replaced because it still exists.",
+                    filename,
+                )
+                return False
+
+            logger.info(
+                "Document '%s' replaced successfully.",
+                filename,
+            )
+
+            return True
+
+        except Exception:
+            logger.exception(
+                "Failed to replace document '%s'.",
+                filename,
+            )
+            raise

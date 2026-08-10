@@ -149,6 +149,10 @@ class TextCleaner:
             list[Document]: Cleaned documents.
         """
 
+        if not documents:
+            logger.info("No documents to clean.")
+            return []
+
         logger.info(
             "Cleaning %d document(s)...",
             len(documents),
@@ -162,8 +166,6 @@ class TextCleaner:
             for doc in documents
         ]
 
-        logger.info(
-            "Document cleaning completed."
-        )
+        logger.info("Document cleaning completed.")
 
         return cleaned_documents

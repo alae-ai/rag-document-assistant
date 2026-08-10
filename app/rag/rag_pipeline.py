@@ -65,6 +65,16 @@ class RAGPipeline:
             # Retrieve relevant chunks
             chunks = self.retriever.retrieve(question)
 
+            # No relevant documents found
+            if not chunks:
+                logger.warning(
+                    "No relevant documents found for question."
+                )
+                return (
+                    "I don't know based on the provided documents.",
+                    []
+                )
+
             # Build prompt
             prompt = self.prompt_builder.build(
                 question=question,

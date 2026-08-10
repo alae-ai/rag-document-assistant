@@ -1,6 +1,9 @@
 from langchain_ollama import OllamaEmbeddings
 
 from app.embeddings.config import EMBEDDING_MODEL
+from app.utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 
 class EmbeddingModel:
@@ -24,7 +27,19 @@ class EmbeddingModel:
         Returns:
             list[list[float]]: List of embedding vectors.
         """
-        return self.embedding_model.embed_documents(texts)
+        try:
+            return self.embedding_model.embed_documents(texts)
+
+        except Exception:
+            logger.exception(
+                "Failed to generate document embeddings using model '%s'.",
+                EMBEDDING_MODEL,
+            )
+            raise RuntimeError(
+                "Unable to generate embeddings. "
+                "Please verify that Ollama is running and that the "
+                f"'{EMBEDDING_MODEL}' model is installed."
+            )
 
     def embed_query(self, query):
         """
@@ -36,4 +51,14 @@ class EmbeddingModel:
         Returns:
             list[float]: Query embedding.
         """
-        return self.embedding_model.embed_query(query)
+        try:
+            return self.embedding_model.embed_query(query)
+
+        except Exception:
+            logger.exception(
+                "Failed to generate query embedding."
+            )
+            raise RuntimeError(
+                "Unable to generate the query embedding. "
+                "Please verify that Ollama is running."
+            )

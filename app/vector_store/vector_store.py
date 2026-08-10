@@ -24,7 +24,6 @@ logger = get_logger(__name__)
 
 from pathlib import Path
 
-from qdrant_client.models import FilterSelector, Filter
 
 class VectorStore:
     """
@@ -79,9 +78,14 @@ class VectorStore:
         """
         Return all existing collections.
         """
-        collections = self.client.get_collections().collections
 
-        return [c.name for c in collections]
+        try:
+            collections = self.client.get_collections().collections
+            return [c.name for c in collections]
+
+        except Exception:
+            logger.exception("Failed to list collections.")
+            raise
 
     def add_documents(self, documents):
         """
@@ -138,13 +142,22 @@ class VectorStore:
             )
             raise
 
+
+
     def count_vectors(self):
         """
         Return the number of vectors stored in the collection.
         """
-        return self.client.count(
-            collection_name=COLLECTION_NAME
-        ).count
+        try:
+            return self.client.count(
+                collection_name=COLLECTION_NAME
+            ).count
+
+        except Exception:
+            logger.exception(
+                "Failed to count vectors."
+            )
+            raise
 
     def document_exists(self, source: str) -> bool:
         """
