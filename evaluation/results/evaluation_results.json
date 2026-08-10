@@ -1,0 +1,1333 @@
+{
+    "summary": {
+        "total_questions": 30,
+        "successful_questions": 30,
+        "failed_questions": 0,
+        "success_rate": 1.0,
+        "average_response_time_seconds": 72.4568,
+        "average_source_recall": 1.0
+    },
+    "results": [
+        {
+            "id": 1,
+            "question": "How should employees contact IT support?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "Employees should contact the IT Help Desk through the internal support portal.",
+            "actual_answer": "Employees experiencing technical issues should contact the IT Help Desk through the internal support portal.",
+            "response_time_seconds": 75.2083,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 0,
+                    "score": 0.74833876,
+                    "text": "IT Support Policy\n\nEmployees experiencing technical issues should contact the IT Help Desk through the internal support portal.\n\nSupport requests are handled during business hours, from 8:00 AM to 5:00 PM, Monday to Friday.\n\nNew employees receive a company laptop, an email account, and access to the internal collaboration platform on their first working day.\n\nSoftware installation requests require approval from the employee's department manager."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 1,
+                    "score": 0.66476434,
+                    "text": "Software installation requests require approval from the employee's department manager.\n\nPasswords must be changed every 90 days and must contain at least 12 characters, including uppercase letters, lowercase letters, numbers, and special characters.\n\nThe IT department aims to respond to critical support requests within 2 hours and standard requests within one business day."
+                },
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.6450989,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                }
+            ],
+            "expected_sources": [
+                "IT Support Policy.docx"
+            ],
+            "retrieved_sources": [
+                "IT Support Policy.docx",
+                "company_policy.txt"
+            ],
+            "expected_sources_found": [
+                "IT Support Policy.docx"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 2,
+            "question": "When is IT support available?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "IT support requests are handled from 8:00 AM to 5:00 PM, Monday to Friday.",
+            "actual_answer": "IT support is available during business hours, from 8:00 AM to 5:00 PM, Monday to Friday.",
+            "response_time_seconds": 72.5666,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 0,
+                    "score": 0.66630304,
+                    "text": "IT Support Policy\n\nEmployees experiencing technical issues should contact the IT Help Desk through the internal support portal.\n\nSupport requests are handled during business hours, from 8:00 AM to 5:00 PM, Monday to Friday.\n\nNew employees receive a company laptop, an email account, and access to the internal collaboration platform on their first working day.\n\nSoftware installation requests require approval from the employee's department manager."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 1,
+                    "score": 0.5970021,
+                    "text": "Software installation requests require approval from the employee's department manager.\n\nPasswords must be changed every 90 days and must contain at least 12 characters, including uppercase letters, lowercase letters, numbers, and special characters.\n\nThe IT department aims to respond to critical support requests within 2 hours and standard requests within one business day."
+                },
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.58033144,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                }
+            ],
+            "expected_sources": [
+                "IT Support Policy.docx"
+            ],
+            "retrieved_sources": [
+                "IT Support Policy.docx",
+                "company_policy.txt"
+            ],
+            "expected_sources_found": [
+                "IT Support Policy.docx"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 3,
+            "question": "What does a new employee receive on their first working day?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "A new employee receives a company laptop, an email account, and access to the internal collaboration platform.",
+            "actual_answer": "Based on the provided documents, a new employee receives:\n\n- A company laptop\n- An email account\n- Access to the internal collaboration platform",
+            "response_time_seconds": 72.9786,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 0,
+                    "score": 0.6298745,
+                    "text": "IT Support Policy\n\nEmployees experiencing technical issues should contact the IT Help Desk through the internal support portal.\n\nSupport requests are handled during business hours, from 8:00 AM to 5:00 PM, Monday to Friday.\n\nNew employees receive a company laptop, an email account, and access to the internal collaboration platform on their first working day.\n\nSoftware installation requests require approval from the employee's department manager."
+                },
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.60524046,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 1,
+                    "score": 0.5548676,
+                    "text": "Software installation requests require approval from the employee's department manager.\n\nPasswords must be changed every 90 days and must contain at least 12 characters, including uppercase letters, lowercase letters, numbers, and special characters.\n\nThe IT department aims to respond to critical support requests within 2 hours and standard requests within one business day."
+                }
+            ],
+            "expected_sources": [
+                "IT Support Policy.docx"
+            ],
+            "retrieved_sources": [
+                "IT Support Policy.docx",
+                "company_policy.txt"
+            ],
+            "expected_sources_found": [
+                "IT Support Policy.docx"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 4,
+            "question": "Who must approve software installation requests?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "Software installation requests require approval from the employee's department manager.",
+            "actual_answer": "Software installation requests require approval from the employee's department manager.",
+            "response_time_seconds": 69.879,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 1,
+                    "score": 0.7308616,
+                    "text": "Software installation requests require approval from the employee's department manager.\n\nPasswords must be changed every 90 days and must contain at least 12 characters, including uppercase letters, lowercase letters, numbers, and special characters.\n\nThe IT department aims to respond to critical support requests within 2 hours and standard requests within one business day."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 0,
+                    "score": 0.7112234,
+                    "text": "IT Support Policy\n\nEmployees experiencing technical issues should contact the IT Help Desk through the internal support portal.\n\nSupport requests are handled during business hours, from 8:00 AM to 5:00 PM, Monday to Friday.\n\nNew employees receive a company laptop, an email account, and access to the internal collaboration platform on their first working day.\n\nSoftware installation requests require approval from the employee's department manager."
+                },
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.61085176,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                }
+            ],
+            "expected_sources": [
+                "IT Support Policy.docx"
+            ],
+            "retrieved_sources": [
+                "IT Support Policy.docx",
+                "company_policy.txt"
+            ],
+            "expected_sources_found": [
+                "IT Support Policy.docx"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 5,
+            "question": "How often must employees change their passwords?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "Employees must change their passwords every 90 days.",
+            "actual_answer": "Passwords must be changed every 90 days and must contain at least 12 characters, including uppercase letters, lowercase letters, numbers, and special characters.",
+            "response_time_seconds": 73.7038,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 1,
+                    "score": 0.6493335,
+                    "text": "Software installation requests require approval from the employee's department manager.\n\nPasswords must be changed every 90 days and must contain at least 12 characters, including uppercase letters, lowercase letters, numbers, and special characters.\n\nThe IT department aims to respond to critical support requests within 2 hours and standard requests within one business day."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 0,
+                    "score": 0.6214651,
+                    "text": "IT Support Policy\n\nEmployees experiencing technical issues should contact the IT Help Desk through the internal support portal.\n\nSupport requests are handled during business hours, from 8:00 AM to 5:00 PM, Monday to Friday.\n\nNew employees receive a company laptop, an email account, and access to the internal collaboration platform on their first working day.\n\nSoftware installation requests require approval from the employee's department manager."
+                },
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.6086154,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                }
+            ],
+            "expected_sources": [
+                "IT Support Policy.docx"
+            ],
+            "retrieved_sources": [
+                "IT Support Policy.docx",
+                "company_policy.txt"
+            ],
+            "expected_sources_found": [
+                "IT Support Policy.docx"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 6,
+            "question": "What is the minimum password length?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "Passwords must contain at least 12 characters.",
+            "actual_answer": "Based on the retrieved document excerpts, passwords must be at least 12 characters long.",
+            "response_time_seconds": 71.1907,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 1,
+                    "score": 0.528854,
+                    "text": "Software installation requests require approval from the employee's department manager.\n\nPasswords must be changed every 90 days and must contain at least 12 characters, including uppercase letters, lowercase letters, numbers, and special characters.\n\nThe IT department aims to respond to critical support requests within 2 hours and standard requests within one business day."
+                },
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.49639073,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 0,
+                    "score": 0.4534781,
+                    "text": "IT Support Policy\n\nEmployees experiencing technical issues should contact the IT Help Desk through the internal support portal.\n\nSupport requests are handled during business hours, from 8:00 AM to 5:00 PM, Monday to Friday.\n\nNew employees receive a company laptop, an email account, and access to the internal collaboration platform on their first working day.\n\nSoftware installation requests require approval from the employee's department manager."
+                }
+            ],
+            "expected_sources": [
+                "IT Support Policy.docx"
+            ],
+            "retrieved_sources": [
+                "IT Support Policy.docx",
+                "company_policy.txt"
+            ],
+            "expected_sources_found": [
+                "IT Support Policy.docx"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 7,
+            "question": "What must a company password contain?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "A password must contain uppercase letters, lowercase letters, numbers, and special characters.",
+            "actual_answer": "Based on the provided documents, a company password must contain at least 12 characters, including uppercase letters, lowercase letters, numbers, and special characters.",
+            "response_time_seconds": 72.8661,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.5872089,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 0,
+                    "score": 0.55946535,
+                    "text": "IT Support Policy\n\nEmployees experiencing technical issues should contact the IT Help Desk through the internal support portal.\n\nSupport requests are handled during business hours, from 8:00 AM to 5:00 PM, Monday to Friday.\n\nNew employees receive a company laptop, an email account, and access to the internal collaboration platform on their first working day.\n\nSoftware installation requests require approval from the employee's department manager."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 1,
+                    "score": 0.5591897,
+                    "text": "Software installation requests require approval from the employee's department manager.\n\nPasswords must be changed every 90 days and must contain at least 12 characters, including uppercase letters, lowercase letters, numbers, and special characters.\n\nThe IT department aims to respond to critical support requests within 2 hours and standard requests within one business day."
+                }
+            ],
+            "expected_sources": [
+                "IT Support Policy.docx"
+            ],
+            "retrieved_sources": [
+                "company_policy.txt",
+                "IT Support Policy.docx"
+            ],
+            "expected_sources_found": [
+                "IT Support Policy.docx"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 8,
+            "question": "How quickly does IT aim to respond to critical support requests?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "The IT department aims to respond to critical support requests within 2 hours.",
+            "actual_answer": "IT aims to respond to critical support requests within 2 hours.",
+            "response_time_seconds": 70.6525,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 1,
+                    "score": 0.68880117,
+                    "text": "Software installation requests require approval from the employee's department manager.\n\nPasswords must be changed every 90 days and must contain at least 12 characters, including uppercase letters, lowercase letters, numbers, and special characters.\n\nThe IT department aims to respond to critical support requests within 2 hours and standard requests within one business day."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 0,
+                    "score": 0.6528019,
+                    "text": "IT Support Policy\n\nEmployees experiencing technical issues should contact the IT Help Desk through the internal support portal.\n\nSupport requests are handled during business hours, from 8:00 AM to 5:00 PM, Monday to Friday.\n\nNew employees receive a company laptop, an email account, and access to the internal collaboration platform on their first working day.\n\nSoftware installation requests require approval from the employee's department manager."
+                },
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.59568965,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                }
+            ],
+            "expected_sources": [
+                "IT Support Policy.docx"
+            ],
+            "retrieved_sources": [
+                "IT Support Policy.docx",
+                "company_policy.txt"
+            ],
+            "expected_sources_found": [
+                "IT Support Policy.docx"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 9,
+            "question": "How quickly does IT aim to respond to standard support requests?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "The IT department aims to respond to standard requests within one business day.",
+            "actual_answer": "IT aims to respond to standard support requests within one business day.",
+            "response_time_seconds": 70.5457,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 1,
+                    "score": 0.68415403,
+                    "text": "Software installation requests require approval from the employee's department manager.\n\nPasswords must be changed every 90 days and must contain at least 12 characters, including uppercase letters, lowercase letters, numbers, and special characters.\n\nThe IT department aims to respond to critical support requests within 2 hours and standard requests within one business day."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 0,
+                    "score": 0.6581803,
+                    "text": "IT Support Policy\n\nEmployees experiencing technical issues should contact the IT Help Desk through the internal support portal.\n\nSupport requests are handled during business hours, from 8:00 AM to 5:00 PM, Monday to Friday.\n\nNew employees receive a company laptop, an email account, and access to the internal collaboration platform on their first working day.\n\nSoftware installation requests require approval from the employee's department manager."
+                },
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.597511,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                }
+            ],
+            "expected_sources": [
+                "IT Support Policy.docx"
+            ],
+            "retrieved_sources": [
+                "IT Support Policy.docx",
+                "company_policy.txt"
+            ],
+            "expected_sources_found": [
+                "IT Support Policy.docx"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 10,
+            "question": "What should employees do when they experience technical issues?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "They should contact the IT Help Desk through the internal support portal.",
+            "actual_answer": "Employees experiencing technical issues should contact the IT Help Desk through the internal support portal. Support requests are handled during business hours, from 8:00 AM to 5:00 PM, Monday to Friday.",
+            "response_time_seconds": 74.859,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 0,
+                    "score": 0.7630609,
+                    "text": "IT Support Policy\n\nEmployees experiencing technical issues should contact the IT Help Desk through the internal support portal.\n\nSupport requests are handled during business hours, from 8:00 AM to 5:00 PM, Monday to Friday.\n\nNew employees receive a company laptop, an email account, and access to the internal collaboration platform on their first working day.\n\nSoftware installation requests require approval from the employee's department manager."
+                },
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.64554787,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 1,
+                    "score": 0.6069947,
+                    "text": "Software installation requests require approval from the employee's department manager.\n\nPasswords must be changed every 90 days and must contain at least 12 characters, including uppercase letters, lowercase letters, numbers, and special characters.\n\nThe IT department aims to respond to critical support requests within 2 hours and standard requests within one business day."
+                }
+            ],
+            "expected_sources": [
+                "IT Support Policy.docx"
+            ],
+            "retrieved_sources": [
+                "IT Support Policy.docx",
+                "company_policy.txt"
+            ],
+            "expected_sources_found": [
+                "IT Support Policy.docx"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 11,
+            "question": "What approval is required before making business travel arrangements?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "Employees must obtain approval from their manager before making travel arrangements.",
+            "actual_answer": "Approval from the employee's manager is required before making business travel arrangements.",
+            "response_time_seconds": 70.9067,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "Travel and Expense Policy.pdf",
+                    "chunk_id": 0,
+                    "score": 0.7695474,
+                    "text": "Travel and Expense Policy\nEmployees traveling for business must obtain approval from their manager before making travel\narrangements.\nAir travel should be booked in economy class unless executive approval is granted.\nHotel expenses are reimbursed up to $200 per night , and meal expenses are reimbursed up to\n$60 per day .\nExpense reports must be submitted within 10 business days after returning from the trip and\nmust include all original receipts."
+                },
+                {
+                    "source": "Travel and Expense Policy.pdf",
+                    "chunk_id": 1,
+                    "score": 0.60893166,
+                    "text": "must include all original receipts.\nPersonal expenses, including entertainment and alcohol, are not reimbursable.\nEmployees using their personal vehicle for business travel are reimbursed at $0.65 per mile ."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 1,
+                    "score": 0.6014965,
+                    "text": "Software installation requests require approval from the employee's department manager.\n\nPasswords must be changed every 90 days and must contain at least 12 characters, including uppercase letters, lowercase letters, numbers, and special characters.\n\nThe IT department aims to respond to critical support requests within 2 hours and standard requests within one business day."
+                }
+            ],
+            "expected_sources": [
+                "Travel and Expense Policy.pdf"
+            ],
+            "retrieved_sources": [
+                "Travel and Expense Policy.pdf",
+                "IT Support Policy.docx"
+            ],
+            "expected_sources_found": [
+                "Travel and Expense Policy.pdf"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 12,
+            "question": "What class should employees use for air travel?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "Air travel should be booked in economy class unless executive approval is granted.",
+            "actual_answer": "Based on the Travel and Expense Policy document, employees should book air travel in economy class unless executive approval is granted.",
+            "response_time_seconds": 70.6402,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "Travel and Expense Policy.pdf",
+                    "chunk_id": 0,
+                    "score": 0.6844395,
+                    "text": "Travel and Expense Policy\nEmployees traveling for business must obtain approval from their manager before making travel\narrangements.\nAir travel should be booked in economy class unless executive approval is granted.\nHotel expenses are reimbursed up to $200 per night , and meal expenses are reimbursed up to\n$60 per day .\nExpense reports must be submitted within 10 business days after returning from the trip and\nmust include all original receipts."
+                },
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.62391305,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                },
+                {
+                    "source": "Travel and Expense Policy.pdf",
+                    "chunk_id": 1,
+                    "score": 0.58137333,
+                    "text": "must include all original receipts.\nPersonal expenses, including entertainment and alcohol, are not reimbursable.\nEmployees using their personal vehicle for business travel are reimbursed at $0.65 per mile ."
+                }
+            ],
+            "expected_sources": [
+                "Travel and Expense Policy.pdf"
+            ],
+            "retrieved_sources": [
+                "Travel and Expense Policy.pdf",
+                "company_policy.txt"
+            ],
+            "expected_sources_found": [
+                "Travel and Expense Policy.pdf"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 13,
+            "question": "When can an employee book business travel in a class other than economy?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "A class other than economy can be booked when executive approval is granted.",
+            "actual_answer": "Based on the document, air travel should be booked in economy class unless executive approval is granted.",
+            "response_time_seconds": 71.0011,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "Travel and Expense Policy.pdf",
+                    "chunk_id": 0,
+                    "score": 0.72841555,
+                    "text": "Travel and Expense Policy\nEmployees traveling for business must obtain approval from their manager before making travel\narrangements.\nAir travel should be booked in economy class unless executive approval is granted.\nHotel expenses are reimbursed up to $200 per night , and meal expenses are reimbursed up to\n$60 per day .\nExpense reports must be submitted within 10 business days after returning from the trip and\nmust include all original receipts."
+                },
+                {
+                    "source": "Travel and Expense Policy.pdf",
+                    "chunk_id": 1,
+                    "score": 0.60596156,
+                    "text": "must include all original receipts.\nPersonal expenses, including entertainment and alcohol, are not reimbursable.\nEmployees using their personal vehicle for business travel are reimbursed at $0.65 per mile ."
+                },
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.56125,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                }
+            ],
+            "expected_sources": [
+                "Travel and Expense Policy.pdf"
+            ],
+            "retrieved_sources": [
+                "Travel and Expense Policy.pdf",
+                "company_policy.txt"
+            ],
+            "expected_sources_found": [
+                "Travel and Expense Policy.pdf"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 14,
+            "question": "How much are hotel expenses reimbursed per night?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "Hotel expenses are reimbursed up to $200 per night.",
+            "actual_answer": "Hotel expenses are reimbursed up to $200 per night.",
+            "response_time_seconds": 69.7867,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "Travel and Expense Policy.pdf",
+                    "chunk_id": 1,
+                    "score": 0.7201476,
+                    "text": "must include all original receipts.\nPersonal expenses, including entertainment and alcohol, are not reimbursable.\nEmployees using their personal vehicle for business travel are reimbursed at $0.65 per mile ."
+                },
+                {
+                    "source": "Travel and Expense Policy.pdf",
+                    "chunk_id": 0,
+                    "score": 0.71898353,
+                    "text": "Travel and Expense Policy\nEmployees traveling for business must obtain approval from their manager before making travel\narrangements.\nAir travel should be booked in economy class unless executive approval is granted.\nHotel expenses are reimbursed up to $200 per night , and meal expenses are reimbursed up to\n$60 per day .\nExpense reports must be submitted within 10 business days after returning from the trip and\nmust include all original receipts."
+                },
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.4589796,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                }
+            ],
+            "expected_sources": [
+                "Travel and Expense Policy.pdf"
+            ],
+            "retrieved_sources": [
+                "Travel and Expense Policy.pdf",
+                "company_policy.txt"
+            ],
+            "expected_sources_found": [
+                "Travel and Expense Policy.pdf"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 15,
+            "question": "What is the daily reimbursement limit for meals?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "Meal expenses are reimbursed up to $60 per day.",
+            "actual_answer": "Based on the Travel and Expense Policy.pdf, the daily reimbursement limit for meals is $60 per day.",
+            "response_time_seconds": 70.9229,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "Travel and Expense Policy.pdf",
+                    "chunk_id": 1,
+                    "score": 0.64496905,
+                    "text": "must include all original receipts.\nPersonal expenses, including entertainment and alcohol, are not reimbursable.\nEmployees using their personal vehicle for business travel are reimbursed at $0.65 per mile ."
+                },
+                {
+                    "source": "Travel and Expense Policy.pdf",
+                    "chunk_id": 0,
+                    "score": 0.641337,
+                    "text": "Travel and Expense Policy\nEmployees traveling for business must obtain approval from their manager before making travel\narrangements.\nAir travel should be booked in economy class unless executive approval is granted.\nHotel expenses are reimbursed up to $200 per night , and meal expenses are reimbursed up to\n$60 per day .\nExpense reports must be submitted within 10 business days after returning from the trip and\nmust include all original receipts."
+                },
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.537236,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                }
+            ],
+            "expected_sources": [
+                "Travel and Expense Policy.pdf"
+            ],
+            "retrieved_sources": [
+                "Travel and Expense Policy.pdf",
+                "company_policy.txt"
+            ],
+            "expected_sources_found": [
+                "Travel and Expense Policy.pdf"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 16,
+            "question": "When must employees submit their expense reports?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "Expense reports must be submitted within 10 business days after returning from the trip.",
+            "actual_answer": "Expense reports must be submitted within 10 business days after returning from the trip and must include all original receipts.",
+            "response_time_seconds": 70.7014,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "Travel and Expense Policy.pdf",
+                    "chunk_id": 0,
+                    "score": 0.6517925,
+                    "text": "Travel and Expense Policy\nEmployees traveling for business must obtain approval from their manager before making travel\narrangements.\nAir travel should be booked in economy class unless executive approval is granted.\nHotel expenses are reimbursed up to $200 per night , and meal expenses are reimbursed up to\n$60 per day .\nExpense reports must be submitted within 10 business days after returning from the trip and\nmust include all original receipts."
+                },
+                {
+                    "source": "Travel and Expense Policy.pdf",
+                    "chunk_id": 1,
+                    "score": 0.59951985,
+                    "text": "must include all original receipts.\nPersonal expenses, including entertainment and alcohol, are not reimbursable.\nEmployees using their personal vehicle for business travel are reimbursed at $0.65 per mile ."
+                },
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.5877644,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                }
+            ],
+            "expected_sources": [
+                "Travel and Expense Policy.pdf"
+            ],
+            "retrieved_sources": [
+                "Travel and Expense Policy.pdf",
+                "company_policy.txt"
+            ],
+            "expected_sources_found": [
+                "Travel and Expense Policy.pdf"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 17,
+            "question": "What must be included with an expense report?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "Expense reports must include all original receipts.",
+            "actual_answer": "Expense reports must include all original receipts.",
+            "response_time_seconds": 70.3472,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "Travel and Expense Policy.pdf",
+                    "chunk_id": 1,
+                    "score": 0.6465422,
+                    "text": "must include all original receipts.\nPersonal expenses, including entertainment and alcohol, are not reimbursable.\nEmployees using their personal vehicle for business travel are reimbursed at $0.65 per mile ."
+                },
+                {
+                    "source": "Travel and Expense Policy.pdf",
+                    "chunk_id": 0,
+                    "score": 0.625814,
+                    "text": "Travel and Expense Policy\nEmployees traveling for business must obtain approval from their manager before making travel\narrangements.\nAir travel should be booked in economy class unless executive approval is granted.\nHotel expenses are reimbursed up to $200 per night , and meal expenses are reimbursed up to\n$60 per day .\nExpense reports must be submitted within 10 business days after returning from the trip and\nmust include all original receipts."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 1,
+                    "score": 0.48823786,
+                    "text": "Software installation requests require approval from the employee's department manager.\n\nPasswords must be changed every 90 days and must contain at least 12 characters, including uppercase letters, lowercase letters, numbers, and special characters.\n\nThe IT department aims to respond to critical support requests within 2 hours and standard requests within one business day."
+                }
+            ],
+            "expected_sources": [
+                "Travel and Expense Policy.pdf"
+            ],
+            "retrieved_sources": [
+                "Travel and Expense Policy.pdf",
+                "IT Support Policy.docx"
+            ],
+            "expected_sources_found": [
+                "Travel and Expense Policy.pdf"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 18,
+            "question": "Are personal entertainment expenses reimbursable?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "No, personal expenses including entertainment are not reimbursable.",
+            "actual_answer": "Personal expenses, including entertainment and alcohol, are not reimbursable.",
+            "response_time_seconds": 69.6845,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "Travel and Expense Policy.pdf",
+                    "chunk_id": 1,
+                    "score": 0.752519,
+                    "text": "must include all original receipts.\nPersonal expenses, including entertainment and alcohol, are not reimbursable.\nEmployees using their personal vehicle for business travel are reimbursed at $0.65 per mile ."
+                },
+                {
+                    "source": "Travel and Expense Policy.pdf",
+                    "chunk_id": 0,
+                    "score": 0.62311757,
+                    "text": "Travel and Expense Policy\nEmployees traveling for business must obtain approval from their manager before making travel\narrangements.\nAir travel should be booked in economy class unless executive approval is granted.\nHotel expenses are reimbursed up to $200 per night , and meal expenses are reimbursed up to\n$60 per day .\nExpense reports must be submitted within 10 business days after returning from the trip and\nmust include all original receipts."
+                },
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.51539844,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                }
+            ],
+            "expected_sources": [
+                "Travel and Expense Policy.pdf"
+            ],
+            "retrieved_sources": [
+                "Travel and Expense Policy.pdf",
+                "company_policy.txt"
+            ],
+            "expected_sources_found": [
+                "Travel and Expense Policy.pdf"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 19,
+            "question": "Is alcohol reimbursable during business travel?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "No, alcohol expenses are not reimbursable.",
+            "actual_answer": "Based on the Travel and Expense Policy.pdf, personal expenses, including entertainment and alcohol, are not reimbursable. Therefore, alcohol is not reimbursable during business travel.",
+            "response_time_seconds": 74.3119,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "Travel and Expense Policy.pdf",
+                    "chunk_id": 1,
+                    "score": 0.79309833,
+                    "text": "must include all original receipts.\nPersonal expenses, including entertainment and alcohol, are not reimbursable.\nEmployees using their personal vehicle for business travel are reimbursed at $0.65 per mile ."
+                },
+                {
+                    "source": "Travel and Expense Policy.pdf",
+                    "chunk_id": 0,
+                    "score": 0.7686212,
+                    "text": "Travel and Expense Policy\nEmployees traveling for business must obtain approval from their manager before making travel\narrangements.\nAir travel should be booked in economy class unless executive approval is granted.\nHotel expenses are reimbursed up to $200 per night , and meal expenses are reimbursed up to\n$60 per day .\nExpense reports must be submitted within 10 business days after returning from the trip and\nmust include all original receipts."
+                },
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.54063195,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                }
+            ],
+            "expected_sources": [
+                "Travel and Expense Policy.pdf"
+            ],
+            "retrieved_sources": [
+                "Travel and Expense Policy.pdf",
+                "company_policy.txt"
+            ],
+            "expected_sources_found": [
+                "Travel and Expense Policy.pdf"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 20,
+            "question": "What is the reimbursement rate for using a personal vehicle?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "Employees using their personal vehicle for business travel are reimbursed at $0.65 per mile.",
+            "actual_answer": "Employees using their personal vehicle for business travel are reimbursed at $0.65 per mile.",
+            "response_time_seconds": 70.7754,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "Travel and Expense Policy.pdf",
+                    "chunk_id": 1,
+                    "score": 0.76556844,
+                    "text": "must include all original receipts.\nPersonal expenses, including entertainment and alcohol, are not reimbursable.\nEmployees using their personal vehicle for business travel are reimbursed at $0.65 per mile ."
+                },
+                {
+                    "source": "Travel and Expense Policy.pdf",
+                    "chunk_id": 0,
+                    "score": 0.6262318,
+                    "text": "Travel and Expense Policy\nEmployees traveling for business must obtain approval from their manager before making travel\narrangements.\nAir travel should be booked in economy class unless executive approval is granted.\nHotel expenses are reimbursed up to $200 per night , and meal expenses are reimbursed up to\n$60 per day .\nExpense reports must be submitted within 10 business days after returning from the trip and\nmust include all original receipts."
+                },
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.52376515,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                }
+            ],
+            "expected_sources": [
+                "Travel and Expense Policy.pdf"
+            ],
+            "retrieved_sources": [
+                "Travel and Expense Policy.pdf",
+                "company_policy.txt"
+            ],
+            "expected_sources_found": [
+                "Travel and Expense Policy.pdf"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 21,
+            "question": "How many days per week can employees work remotely?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "Employees are allowed to work remotely up to two days per week.",
+            "actual_answer": "Employees are allowed to work remotely up to two days per week.",
+            "response_time_seconds": 70.6606,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.8522167,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 0,
+                    "score": 0.634248,
+                    "text": "IT Support Policy\n\nEmployees experiencing technical issues should contact the IT Help Desk through the internal support portal.\n\nSupport requests are handled during business hours, from 8:00 AM to 5:00 PM, Monday to Friday.\n\nNew employees receive a company laptop, an email account, and access to the internal collaboration platform on their first working day.\n\nSoftware installation requests require approval from the employee's department manager."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 1,
+                    "score": 0.5772922,
+                    "text": "Software installation requests require approval from the employee's department manager.\n\nPasswords must be changed every 90 days and must contain at least 12 characters, including uppercase letters, lowercase letters, numbers, and special characters.\n\nThe IT department aims to respond to critical support requests within 2 hours and standard requests within one business day."
+                }
+            ],
+            "expected_sources": [
+                "company_policy.txt"
+            ],
+            "retrieved_sources": [
+                "company_policy.txt",
+                "IT Support Policy.docx"
+            ],
+            "expected_sources_found": [
+                "company_policy.txt"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 22,
+            "question": "Who must approve remote work requests?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "Remote work requests must be approved by the employee's manager.",
+            "actual_answer": "Remote work requests must be approved by the employee's manager.",
+            "response_time_seconds": 70.5229,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.7959424,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 0,
+                    "score": 0.69828975,
+                    "text": "IT Support Policy\n\nEmployees experiencing technical issues should contact the IT Help Desk through the internal support portal.\n\nSupport requests are handled during business hours, from 8:00 AM to 5:00 PM, Monday to Friday.\n\nNew employees receive a company laptop, an email account, and access to the internal collaboration platform on their first working day.\n\nSoftware installation requests require approval from the employee's department manager."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 1,
+                    "score": 0.65536964,
+                    "text": "Software installation requests require approval from the employee's department manager.\n\nPasswords must be changed every 90 days and must contain at least 12 characters, including uppercase letters, lowercase letters, numbers, and special characters.\n\nThe IT department aims to respond to critical support requests within 2 hours and standard requests within one business day."
+                }
+            ],
+            "expected_sources": [
+                "company_policy.txt"
+            ],
+            "retrieved_sources": [
+                "company_policy.txt",
+                "IT Support Policy.docx"
+            ],
+            "expected_sources_found": [
+                "company_policy.txt"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 23,
+            "question": "Does the company provide laptops to full-time employees?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "Yes, the company provides laptops for all full-time employees.",
+            "actual_answer": "Yes, based on the provided documents, the company provides laptops for all full-time employees.",
+            "response_time_seconds": 71.5045,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.7923963,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 0,
+                    "score": 0.67042536,
+                    "text": "IT Support Policy\n\nEmployees experiencing technical issues should contact the IT Help Desk through the internal support portal.\n\nSupport requests are handled during business hours, from 8:00 AM to 5:00 PM, Monday to Friday.\n\nNew employees receive a company laptop, an email account, and access to the internal collaboration platform on their first working day.\n\nSoftware installation requests require approval from the employee's department manager."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 1,
+                    "score": 0.5986178,
+                    "text": "Software installation requests require approval from the employee's department manager.\n\nPasswords must be changed every 90 days and must contain at least 12 characters, including uppercase letters, lowercase letters, numbers, and special characters.\n\nThe IT department aims to respond to critical support requests within 2 hours and standard requests within one business day."
+                }
+            ],
+            "expected_sources": [
+                "company_policy.txt"
+            ],
+            "retrieved_sources": [
+                "company_policy.txt",
+                "IT Support Policy.docx"
+            ],
+            "expected_sources_found": [
+                "company_policy.txt"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 24,
+            "question": "What is the maximum number of remote work days per week?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "The maximum is two remote work days per week.",
+            "actual_answer": "Based on the company policy excerpt provided in company_policy.txt, employees are allowed to work remotely up to two days per week.",
+            "response_time_seconds": 72.8232,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.8112038,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 0,
+                    "score": 0.58214855,
+                    "text": "IT Support Policy\n\nEmployees experiencing technical issues should contact the IT Help Desk through the internal support portal.\n\nSupport requests are handled during business hours, from 8:00 AM to 5:00 PM, Monday to Friday.\n\nNew employees receive a company laptop, an email account, and access to the internal collaboration platform on their first working day.\n\nSoftware installation requests require approval from the employee's department manager."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 1,
+                    "score": 0.5797523,
+                    "text": "Software installation requests require approval from the employee's department manager.\n\nPasswords must be changed every 90 days and must contain at least 12 characters, including uppercase letters, lowercase letters, numbers, and special characters.\n\nThe IT department aims to respond to critical support requests within 2 hours and standard requests within one business day."
+                }
+            ],
+            "expected_sources": [
+                "company_policy.txt"
+            ],
+            "retrieved_sources": [
+                "company_policy.txt",
+                "IT Support Policy.docx"
+            ],
+            "expected_sources_found": [
+                "company_policy.txt"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 25,
+            "question": "Can employees work remotely without manager approval?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "No, all remote work requests must be approved by the employee's manager.",
+            "actual_answer": "Based on the retrieved documents, employees are allowed to work remotely up to two days per week, but all remote work requests must be approved by the employee's manager. Therefore, employees cannot work remotely without manager approval.\n\nI don't know based on the provided documents if there are any exceptions or special cases where this rule might not apply.",
+            "response_time_seconds": 77.9675,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.77596784,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 0,
+                    "score": 0.66751164,
+                    "text": "IT Support Policy\n\nEmployees experiencing technical issues should contact the IT Help Desk through the internal support portal.\n\nSupport requests are handled during business hours, from 8:00 AM to 5:00 PM, Monday to Friday.\n\nNew employees receive a company laptop, an email account, and access to the internal collaboration platform on their first working day.\n\nSoftware installation requests require approval from the employee's department manager."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 1,
+                    "score": 0.5907097,
+                    "text": "Software installation requests require approval from the employee's department manager.\n\nPasswords must be changed every 90 days and must contain at least 12 characters, including uppercase letters, lowercase letters, numbers, and special characters.\n\nThe IT department aims to respond to critical support requests within 2 hours and standard requests within one business day."
+                }
+            ],
+            "expected_sources": [
+                "company_policy.txt"
+            ],
+            "retrieved_sources": [
+                "company_policy.txt",
+                "IT Support Policy.docx"
+            ],
+            "expected_sources_found": [
+                "company_policy.txt"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 26,
+            "question": "Who receives a company laptop under the remote work policy?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "All full-time employees receive a company laptop.",
+            "actual_answer": "Based on the retrieved documents, full-time employees receive a company laptop according to the Company Remote Work Policy.",
+            "response_time_seconds": 72.2659,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.7935852,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 0,
+                    "score": 0.6707636,
+                    "text": "IT Support Policy\n\nEmployees experiencing technical issues should contact the IT Help Desk through the internal support portal.\n\nSupport requests are handled during business hours, from 8:00 AM to 5:00 PM, Monday to Friday.\n\nNew employees receive a company laptop, an email account, and access to the internal collaboration platform on their first working day.\n\nSoftware installation requests require approval from the employee's department manager."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 1,
+                    "score": 0.56809217,
+                    "text": "Software installation requests require approval from the employee's department manager.\n\nPasswords must be changed every 90 days and must contain at least 12 characters, including uppercase letters, lowercase letters, numbers, and special characters.\n\nThe IT department aims to respond to critical support requests within 2 hours and standard requests within one business day."
+                }
+            ],
+            "expected_sources": [
+                "company_policy.txt"
+            ],
+            "retrieved_sources": [
+                "company_policy.txt",
+                "IT Support Policy.docx"
+            ],
+            "expected_sources_found": [
+                "company_policy.txt"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 27,
+            "question": "What is the remote work policy?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "Employees may work remotely up to two days per week, but remote work requests must be approved by their manager. The company provides laptops to all full-time employees.",
+            "actual_answer": "Employees are allowed to work remotely up to two days per week. All remote work requests must be approved by the employee's manager. The company provides laptops for all full-time employees.",
+            "response_time_seconds": 73.9443,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.73012054,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 0,
+                    "score": 0.5734731,
+                    "text": "IT Support Policy\n\nEmployees experiencing technical issues should contact the IT Help Desk through the internal support portal.\n\nSupport requests are handled during business hours, from 8:00 AM to 5:00 PM, Monday to Friday.\n\nNew employees receive a company laptop, an email account, and access to the internal collaboration platform on their first working day.\n\nSoftware installation requests require approval from the employee's department manager."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 1,
+                    "score": 0.50049806,
+                    "text": "Software installation requests require approval from the employee's department manager.\n\nPasswords must be changed every 90 days and must contain at least 12 characters, including uppercase letters, lowercase letters, numbers, and special characters.\n\nThe IT department aims to respond to critical support requests within 2 hours and standard requests within one business day."
+                }
+            ],
+            "expected_sources": [
+                "company_policy.txt"
+            ],
+            "retrieved_sources": [
+                "company_policy.txt",
+                "IT Support Policy.docx"
+            ],
+            "expected_sources_found": [
+                "company_policy.txt"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 28,
+            "question": "How many remote days are allowed each week?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "Up to two remote work days are allowed per week.",
+            "actual_answer": "According to the Company Remote Work Policy, employees are allowed to work remotely up to two days per week.",
+            "response_time_seconds": 72.479,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.7739966,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                },
+                {
+                    "source": "Travel and Expense Policy.pdf",
+                    "chunk_id": 0,
+                    "score": 0.57565105,
+                    "text": "Travel and Expense Policy\nEmployees traveling for business must obtain approval from their manager before making travel\narrangements.\nAir travel should be booked in economy class unless executive approval is granted.\nHotel expenses are reimbursed up to $200 per night , and meal expenses are reimbursed up to\n$60 per day .\nExpense reports must be submitted within 10 business days after returning from the trip and\nmust include all original receipts."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 1,
+                    "score": 0.55853426,
+                    "text": "Software installation requests require approval from the employee's department manager.\n\nPasswords must be changed every 90 days and must contain at least 12 characters, including uppercase letters, lowercase letters, numbers, and special characters.\n\nThe IT department aims to respond to critical support requests within 2 hours and standard requests within one business day."
+                }
+            ],
+            "expected_sources": [
+                "company_policy.txt"
+            ],
+            "retrieved_sources": [
+                "company_policy.txt",
+                "Travel and Expense Policy.pdf",
+                "IT Support Policy.docx"
+            ],
+            "expected_sources_found": [
+                "company_policy.txt"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 29,
+            "question": "Does remote work require approval?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "Yes, remote work requests require approval from the employee's manager.",
+            "actual_answer": "Based on the Company Remote Work Policy excerpt:\nRemote work requests must be approved by the employee's manager.\n\nTherefore, remote work requires approval.",
+            "response_time_seconds": 72.4196,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.765937,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 0,
+                    "score": 0.66973484,
+                    "text": "IT Support Policy\n\nEmployees experiencing technical issues should contact the IT Help Desk through the internal support portal.\n\nSupport requests are handled during business hours, from 8:00 AM to 5:00 PM, Monday to Friday.\n\nNew employees receive a company laptop, an email account, and access to the internal collaboration platform on their first working day.\n\nSoftware installation requests require approval from the employee's department manager."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 1,
+                    "score": 0.6424095,
+                    "text": "Software installation requests require approval from the employee's department manager.\n\nPasswords must be changed every 90 days and must contain at least 12 characters, including uppercase letters, lowercase letters, numbers, and special characters.\n\nThe IT department aims to respond to critical support requests within 2 hours and standard requests within one business day."
+                }
+            ],
+            "expected_sources": [
+                "company_policy.txt"
+            ],
+            "retrieved_sources": [
+                "company_policy.txt",
+                "IT Support Policy.docx"
+            ],
+            "expected_sources_found": [
+                "company_policy.txt"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        },
+        {
+            "id": 30,
+            "question": "What equipment does the company provide to full-time employees for remote work?",
+            "category": null,
+            "expected_intent": null,
+            "expected_answer": "The company provides laptops to all full-time employees.",
+            "actual_answer": "Based on the provided documents, the company provides laptops for all full-time employees. However, there is no explicit mention of whether these laptops are specifically designated for remote work or can be used in any capacity. Therefore, while we can infer that the laptops provided to full-time employees would likely be suitable for remote work, this inference is not explicitly stated in the documents.\n\nTo directly answer the question based on the information given:\n\n- The company provides laptops for all full-time employees.\n- It is implied that these laptops are intended for use by full-time employees, including during remote work days.",
+            "response_time_seconds": 85.5868,
+            "retrieved_chunks": 3,
+            "retrieved_results": [
+                {
+                    "source": "company_policy.txt",
+                    "chunk_id": 0,
+                    "score": 0.83556163,
+                    "text": "Company Remote Work Policy\n\nEmployees are allowed to work remotely up to two days per week.\n\nall remote work requests must be approved by the employee's manager.\n\nThe company provides laptops for all full-time employees."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 0,
+                    "score": 0.6716602,
+                    "text": "IT Support Policy\n\nEmployees experiencing technical issues should contact the IT Help Desk through the internal support portal.\n\nSupport requests are handled during business hours, from 8:00 AM to 5:00 PM, Monday to Friday.\n\nNew employees receive a company laptop, an email account, and access to the internal collaboration platform on their first working day.\n\nSoftware installation requests require approval from the employee's department manager."
+                },
+                {
+                    "source": "IT Support Policy.docx",
+                    "chunk_id": 1,
+                    "score": 0.573309,
+                    "text": "Software installation requests require approval from the employee's department manager.\n\nPasswords must be changed every 90 days and must contain at least 12 characters, including uppercase letters, lowercase letters, numbers, and special characters.\n\nThe IT department aims to respond to critical support requests within 2 hours and standard requests within one business day."
+                }
+            ],
+            "expected_sources": [
+                "company_policy.txt"
+            ],
+            "retrieved_sources": [
+                "company_policy.txt",
+                "IT Support Policy.docx"
+            ],
+            "expected_sources_found": [
+                "company_policy.txt"
+            ],
+            "missing_sources": [],
+            "source_recall": 1.0,
+            "status": "success",
+            "error": null
+        }
+    ]
+}
