@@ -34,7 +34,7 @@ class RAGPipeline:
         self.llm = LLM()
         self.intent_classifier = IntentClassifier(self.llm)
 
-    def ask(self, question: str):
+    def ask(self, question: str, use_intent_classifier: bool = True):
         """
         Answer a user question using the RAG pipeline.
 
@@ -53,53 +53,61 @@ class RAGPipeline:
 
         try:
 
-            # Start timer
-            start = time.perf_counter()
+            # Optional intent classification
+            if use_intent_classifier:
 
-            # Determine user intent
-            intent = self.intent_classifier.classify(question)
+                logger.info("Intent classification enabled.")
 
-            # Measure intent classification time
-            intent_time = time.perf_counter() - start
-
-            logger.info(
-                "Intent classification completed in %.4f seconds.",
-                intent_time,
-            )
-
-            # General conversation → no retrieval
-            if intent == Intent.CHAT:
-
-                logger.info("General conversation detected.")
-
-                # Measure time for prompt building and LLM generation
                 start = time.perf_counter()
 
-                prompt = self.prompt_builder.build_chat_prompt(question)
+                intent = self.intent_classifier.classify(question)
 
-                prompt_time = time.perf_counter() - start
-
-                logger.info(
-                    "Chat prompt built in %.4f seconds.",
-                    prompt_time,
-                )
-
-                # Measure time for LLM generation
-                start = time.perf_counter()
-                answer = self.llm.generate(prompt)
-
-                llm_time = time.perf_counter() - start
+                intent_time = time.perf_counter() - start
 
                 logger.info(
-                    "LLM generation completed in %.4f seconds.",
-                    llm_time,
+                    "Intent classification completed in %.4f seconds.",
+                    intent_time,
                 )
-                total_time = time.perf_counter() - pipeline_start
-                logger.info(
-                    "Total pipeline time: %.4f seconds.",
-                    total_time,
-                )
-                return answer, []
+
+                # General conversation → no retrieval
+                if intent == Intent.CHAT:
+
+                    logger.info("General conversation detected.")
+
+                    start = time.perf_counter()
+
+                    prompt = self.prompt_builder.build_chat_prompt(question)
+
+                    prompt_time = time.perf_counter() - start
+
+                    logger.info(
+                        "Chat prompt built in %.4f seconds.",
+                        prompt_time,
+                    )
+
+                    start = time.perf_counter()
+
+                    answer = self.llm.generate(prompt)
+
+                    llm_time = time.perf_counter() - start
+
+                    logger.info(
+                        "LLM generation completed in %.4f seconds.",
+                        llm_time,
+                    )
+
+                    total_time = time.perf_counter() - pipeline_start
+
+                    logger.info(
+                        "Total pipeline time: %.4f seconds.",
+                        total_time,
+                    )
+
+                    return answer, []
+
+            else:
+
+                logger.info("Intent classification disabled.")
 
             # Retrieve relevant chunks
             start = time.perf_counter()

@@ -46,7 +46,10 @@ question = st.text_input(
     "Your question:",
     placeholder="e.g. How many remote work days are allowed?"
 )
-
+use_intent_classifier = st.checkbox(
+    "Use intent classification",
+    value=True,
+)
 if st.button("Ask"):
 
     if not question.strip():
@@ -56,8 +59,10 @@ if st.button("Ask"):
     with st.spinner("Searching documents..."):
 
         try:
-            answer, chunks = pipeline.ask(question)
-
+            answer, chunks = pipeline.ask(
+                question,
+                use_intent_classifier=use_intent_classifier,
+            )
         except Exception as e:
             st.error(f"Unable to answer your question.\n\n{e}")
             st.stop()
