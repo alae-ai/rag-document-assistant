@@ -51,6 +51,66 @@ class LLM:
                 },
             )
 
+            # --------------------------------------------------
+            # Ollama performance metrics
+            # --------------------------------------------------
+
+            prompt_eval_count = response.get(
+                "prompt_eval_count",
+                0,
+            )
+
+            prompt_eval_duration = response.get(
+                "prompt_eval_duration",
+                0,
+            )
+
+            eval_count = response.get(
+                "eval_count",
+                0,
+            )
+
+            eval_duration = response.get(
+                "eval_duration",
+                0,
+            )
+
+            # Convert nanoseconds → seconds
+            prompt_eval_seconds = (
+                prompt_eval_duration / 1_000_000_000
+            )
+
+            eval_seconds = (
+                eval_duration / 1_000_000_000
+            )
+
+            # Calculate tokens/second
+            prompt_tokens_per_second = (
+                prompt_eval_count / prompt_eval_seconds
+                if prompt_eval_seconds > 0
+                else 0
+            )
+
+            generation_tokens_per_second = (
+                eval_count / eval_seconds
+                if eval_seconds > 0
+                else 0
+            )
+
+            logger.info(
+                "Prompt evaluation: %d tokens / %.4fs (%.2f tokens/s)",
+                prompt_eval_count,
+                prompt_eval_seconds,
+                prompt_tokens_per_second,
+            )
+
+            logger.info(
+                "Generation: %d tokens / %.4fs (%.2f tokens/s)",
+                eval_count,
+                eval_seconds,
+                generation_tokens_per_second,
+            )
+
             logger.info("Response generated successfully.")
 
             return response["message"]["content"]

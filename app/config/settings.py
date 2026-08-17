@@ -29,7 +29,7 @@ load_dotenv(ENV_FILE)
 OLLAMA_HOST = os.getenv("OLLAMA_HOST")
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL")
 LLM_TEMPERATURE = float(os.getenv("LLM_TEMPERATURE", "0.0"))
-
+NUM_CTX = int(os.getenv("NUM_CTX", "2048"))
 # -----------------------------------------------------------------------------
 # Embeddings
 # -----------------------------------------------------------------------------
@@ -50,7 +50,7 @@ QDRANT_COLLECTION = os.getenv("QDRANT_COLLECTION")
 # Retrieval
 # -----------------------------------------------------------------------------
 
-TOP_K = 3
+TOP_K = 1
 SIMILARITY_THRESHOLD = 0.65
 
 # -----------------------------------------------------------------------------
