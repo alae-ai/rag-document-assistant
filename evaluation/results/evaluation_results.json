@@ -4,7 +4,7 @@
         "successful_questions": 30,
         "failed_questions": 0,
         "success_rate": 1.0,
-        "average_response_time_seconds": 72.4568,
+        "average_response_time_seconds": 14.4559,
         "average_source_recall": 1.0
     },
     "results": [
@@ -14,8 +14,8 @@
             "category": null,
             "expected_intent": null,
             "expected_answer": "Employees should contact the IT Help Desk through the internal support portal.",
-            "actual_answer": "Employees experiencing technical issues should contact the IT Help Desk through the internal support portal.",
-            "response_time_seconds": 75.2083,
+            "actual_answer": "Employees should contact the IT Help Desk through the internal support portal to contact IT support.",
+            "response_time_seconds": 16.0707,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -59,7 +59,7 @@
             "expected_intent": null,
             "expected_answer": "IT support requests are handled from 8:00 AM to 5:00 PM, Monday to Friday.",
             "actual_answer": "IT support is available during business hours, from 8:00 AM to 5:00 PM, Monday to Friday.",
-            "response_time_seconds": 72.5666,
+            "response_time_seconds": 13.9901,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -102,8 +102,8 @@
             "category": null,
             "expected_intent": null,
             "expected_answer": "A new employee receives a company laptop, an email account, and access to the internal collaboration platform.",
-            "actual_answer": "Based on the provided documents, a new employee receives:\n\n- A company laptop\n- An email account\n- Access to the internal collaboration platform",
-            "response_time_seconds": 72.9786,
+            "actual_answer": "New employees receive a company laptop, an email account, and access to the internal collaboration platform on their first working day.",
+            "response_time_seconds": 13.8703,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -146,8 +146,8 @@
             "category": null,
             "expected_intent": null,
             "expected_answer": "Software installation requests require approval from the employee's department manager.",
-            "actual_answer": "Software installation requests require approval from the employee's department manager.",
-            "response_time_seconds": 69.879,
+            "actual_answer": "The employee's department manager must approve software installation requests.",
+            "response_time_seconds": 12.5816,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -190,8 +190,8 @@
             "category": null,
             "expected_intent": null,
             "expected_answer": "Employees must change their passwords every 90 days.",
-            "actual_answer": "Passwords must be changed every 90 days and must contain at least 12 characters, including uppercase letters, lowercase letters, numbers, and special characters.",
-            "response_time_seconds": 73.7038,
+            "actual_answer": "Passwords must be changed every 90 days.",
+            "response_time_seconds": 12.7649,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -234,8 +234,8 @@
             "category": null,
             "expected_intent": null,
             "expected_answer": "Passwords must contain at least 12 characters.",
-            "actual_answer": "Based on the retrieved document excerpts, passwords must be at least 12 characters long.",
-            "response_time_seconds": 71.1907,
+            "actual_answer": "Passwords must be changed every 90 days and must contain at least 12 characters.",
+            "response_time_seconds": 13.6846,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -278,8 +278,8 @@
             "category": null,
             "expected_intent": null,
             "expected_answer": "A password must contain uppercase letters, lowercase letters, numbers, and special characters.",
-            "actual_answer": "Based on the provided documents, a company password must contain at least 12 characters, including uppercase letters, lowercase letters, numbers, and special characters.",
-            "response_time_seconds": 72.8661,
+            "actual_answer": "Passwords must contain at least 12 characters, including uppercase letters, lowercase letters, numbers, and special characters.",
+            "response_time_seconds": 13.6838,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -323,7 +323,7 @@
             "expected_intent": null,
             "expected_answer": "The IT department aims to respond to critical support requests within 2 hours.",
             "actual_answer": "IT aims to respond to critical support requests within 2 hours.",
-            "response_time_seconds": 70.6525,
+            "response_time_seconds": 13.0019,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -367,7 +367,7 @@
             "expected_intent": null,
             "expected_answer": "The IT department aims to respond to standard requests within one business day.",
             "actual_answer": "IT aims to respond to standard support requests within one business day.",
-            "response_time_seconds": 70.5457,
+            "response_time_seconds": 12.9827,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -410,8 +410,8 @@
             "category": null,
             "expected_intent": null,
             "expected_answer": "They should contact the IT Help Desk through the internal support portal.",
-            "actual_answer": "Employees experiencing technical issues should contact the IT Help Desk through the internal support portal. Support requests are handled during business hours, from 8:00 AM to 5:00 PM, Monday to Friday.",
-            "response_time_seconds": 74.859,
+            "actual_answer": "Employees experiencing technical issues should contact the IT Help Desk through the internal support portal.",
+            "response_time_seconds": 13.0541,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -454,8 +454,8 @@
             "category": null,
             "expected_intent": null,
             "expected_answer": "Employees must obtain approval from their manager before making travel arrangements.",
-            "actual_answer": "Approval from the employee's manager is required before making business travel arrangements.",
-            "response_time_seconds": 70.9067,
+            "actual_answer": "Employees traveling for business must obtain approval from their manager before making travel arrangements.",
+            "response_time_seconds": 13.1105,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -498,8 +498,8 @@
             "category": null,
             "expected_intent": null,
             "expected_answer": "Air travel should be booked in economy class unless executive approval is granted.",
-            "actual_answer": "Based on the Travel and Expense Policy document, employees should book air travel in economy class unless executive approval is granted.",
-            "response_time_seconds": 70.6402,
+            "actual_answer": "Employees should use economy class for air travel unless executive approval is granted.",
+            "response_time_seconds": 12.3841,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -542,8 +542,8 @@
             "category": null,
             "expected_intent": null,
             "expected_answer": "A class other than economy can be booked when executive approval is granted.",
-            "actual_answer": "Based on the document, air travel should be booked in economy class unless executive approval is granted.",
-            "response_time_seconds": 71.0011,
+            "actual_answer": "Executive approval is needed to book air travel in a class other than economy.",
+            "response_time_seconds": 12.9523,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -587,7 +587,7 @@
             "expected_intent": null,
             "expected_answer": "Hotel expenses are reimbursed up to $200 per night.",
             "actual_answer": "Hotel expenses are reimbursed up to $200 per night.",
-            "response_time_seconds": 69.7867,
+            "response_time_seconds": 12.4991,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -630,8 +630,8 @@
             "category": null,
             "expected_intent": null,
             "expected_answer": "Meal expenses are reimbursed up to $60 per day.",
-            "actual_answer": "Based on the Travel and Expense Policy.pdf, the daily reimbursement limit for meals is $60 per day.",
-            "response_time_seconds": 70.9229,
+            "actual_answer": "The daily reimbursement limit for meals is $60.",
+            "response_time_seconds": 12.4101,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -674,8 +674,8 @@
             "category": null,
             "expected_intent": null,
             "expected_answer": "Expense reports must be submitted within 10 business days after returning from the trip.",
-            "actual_answer": "Expense reports must be submitted within 10 business days after returning from the trip and must include all original receipts.",
-            "response_time_seconds": 70.7014,
+            "actual_answer": "Employees must submit their expense reports within 10 business days after returning from the trip.",
+            "response_time_seconds": 14.5963,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -719,7 +719,7 @@
             "expected_intent": null,
             "expected_answer": "Expense reports must include all original receipts.",
             "actual_answer": "Expense reports must include all original receipts.",
-            "response_time_seconds": 70.3472,
+            "response_time_seconds": 24.3021,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -763,7 +763,7 @@
             "expected_intent": null,
             "expected_answer": "No, personal expenses including entertainment are not reimbursable.",
             "actual_answer": "Personal expenses, including entertainment and alcohol, are not reimbursable.",
-            "response_time_seconds": 69.6845,
+            "response_time_seconds": 17.874,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -806,8 +806,8 @@
             "category": null,
             "expected_intent": null,
             "expected_answer": "No, alcohol expenses are not reimbursable.",
-            "actual_answer": "Based on the Travel and Expense Policy.pdf, personal expenses, including entertainment and alcohol, are not reimbursable. Therefore, alcohol is not reimbursable during business travel.",
-            "response_time_seconds": 74.3119,
+            "actual_answer": "Personal expenses, including entertainment and alcohol, are not reimbursable. Based on the provided documents, I don't know if alcohol is reimburable during business travel because there's no specific mention of alcoholic beverages in the given excerpts.",
+            "response_time_seconds": 18.1198,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -850,8 +850,8 @@
             "category": null,
             "expected_intent": null,
             "expected_answer": "Employees using their personal vehicle for business travel are reimbursed at $0.65 per mile.",
-            "actual_answer": "Employees using their personal vehicle for business travel are reimbursed at $0.65 per mile.",
-            "response_time_seconds": 70.7754,
+            "actual_answer": "The reimbursement rate for using a personal vehicle is $0.65 per mile.",
+            "response_time_seconds": 14.8698,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -895,7 +895,7 @@
             "expected_intent": null,
             "expected_answer": "Employees are allowed to work remotely up to two days per week.",
             "actual_answer": "Employees are allowed to work remotely up to two days per week.",
-            "response_time_seconds": 70.6606,
+            "response_time_seconds": 14.1335,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -938,8 +938,8 @@
             "category": null,
             "expected_intent": null,
             "expected_answer": "Remote work requests must be approved by the employee's manager.",
-            "actual_answer": "Remote work requests must be approved by the employee's manager.",
-            "response_time_seconds": 70.5229,
+            "actual_answer": "The manager of the employee must approve remote work requests.",
+            "response_time_seconds": 13.5904,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -982,8 +982,8 @@
             "category": null,
             "expected_intent": null,
             "expected_answer": "Yes, the company provides laptops for all full-time employees.",
-            "actual_answer": "Yes, based on the provided documents, the company provides laptops for all full-time employees.",
-            "response_time_seconds": 71.5045,
+            "actual_answer": "Yes, the company provides laptops for all full-time employees.",
+            "response_time_seconds": 14.7192,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -1026,8 +1026,8 @@
             "category": null,
             "expected_intent": null,
             "expected_answer": "The maximum is two remote work days per week.",
-            "actual_answer": "Based on the company policy excerpt provided in company_policy.txt, employees are allowed to work remotely up to two days per week.",
-            "response_time_seconds": 72.8232,
+            "actual_answer": "The maximum number of remote work days per week is up to two days.",
+            "response_time_seconds": 14.2746,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -1070,8 +1070,8 @@
             "category": null,
             "expected_intent": null,
             "expected_answer": "No, all remote work requests must be approved by the employee's manager.",
-            "actual_answer": "Based on the retrieved documents, employees are allowed to work remotely up to two days per week, but all remote work requests must be approved by the employee's manager. Therefore, employees cannot work remotely without manager approval.\n\nI don't know based on the provided documents if there are any exceptions or special cases where this rule might not apply.",
-            "response_time_seconds": 77.9675,
+            "actual_answer": "I don't know based on the provided documents.",
+            "response_time_seconds": 12.9824,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -1114,8 +1114,8 @@
             "category": null,
             "expected_intent": null,
             "expected_answer": "All full-time employees receive a company laptop.",
-            "actual_answer": "Based on the retrieved documents, full-time employees receive a company laptop according to the Company Remote Work Policy.",
-            "response_time_seconds": 72.2659,
+            "actual_answer": "New employees receive a company laptop on their first working day under the remote work policy.",
+            "response_time_seconds": 13.7831,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -1159,7 +1159,7 @@
             "expected_intent": null,
             "expected_answer": "Employees may work remotely up to two days per week, but remote work requests must be approved by their manager. The company provides laptops to all full-time employees.",
             "actual_answer": "Employees are allowed to work remotely up to two days per week. All remote work requests must be approved by the employee's manager. The company provides laptops for all full-time employees.",
-            "response_time_seconds": 73.9443,
+            "response_time_seconds": 17.3725,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -1202,8 +1202,8 @@
             "category": null,
             "expected_intent": null,
             "expected_answer": "Up to two remote work days are allowed per week.",
-            "actual_answer": "According to the Company Remote Work Policy, employees are allowed to work remotely up to two days per week.",
-            "response_time_seconds": 72.479,
+            "actual_answer": "Employees are allowed to work remotely up to two days per week.",
+            "response_time_seconds": 16.4463,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -1247,8 +1247,8 @@
             "category": null,
             "expected_intent": null,
             "expected_answer": "Yes, remote work requests require approval from the employee's manager.",
-            "actual_answer": "Based on the Company Remote Work Policy excerpt:\nRemote work requests must be approved by the employee's manager.\n\nTherefore, remote work requires approval.",
-            "response_time_seconds": 72.4196,
+            "actual_answer": "all remote work requests must be approved by the employee's manager.",
+            "response_time_seconds": 13.603,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
@@ -1291,8 +1291,8 @@
             "category": null,
             "expected_intent": null,
             "expected_answer": "The company provides laptops to all full-time employees.",
-            "actual_answer": "Based on the provided documents, the company provides laptops for all full-time employees. However, there is no explicit mention of whether these laptops are specifically designated for remote work or can be used in any capacity. Therefore, while we can infer that the laptops provided to full-time employees would likely be suitable for remote work, this inference is not explicitly stated in the documents.\n\nTo directly answer the question based on the information given:\n\n- The company provides laptops for all full-time employees.\n- It is implied that these laptops are intended for use by full-time employees, including during remote work days.",
-            "response_time_seconds": 85.5868,
+            "actual_answer": "The company provides laptops for all full-time employees for remote work.",
+            "response_time_seconds": 13.9689,
             "retrieved_chunks": 3,
             "retrieved_results": [
                 {
