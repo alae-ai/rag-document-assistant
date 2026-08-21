@@ -8,6 +8,37 @@ def apply_custom_style():
     st.markdown(
         """
         <style>
+        html, body, .stApp {
+        font-size: 18px;
+        }
+        body {
+            font-size: 18px;
+        }
+
+        p, li, label {
+            font-size: 18px !important;
+        }
+
+        .stTextInput input,
+        .stTextArea textarea {
+            font-size: 18px !important;
+        }
+
+        .stButton button {
+            font-size: 17px !important;
+        }
+
+        h1 {
+            font-size: 32px !important;
+        }
+
+        h2 {
+            font-size: 26px !important;
+        }
+
+        h3 {
+            font-size: 21px !important;
+        }
         :root {
             --bg: #f5f7fb;
             --panel: #ffffff;
@@ -32,8 +63,8 @@ def apply_custom_style():
             padding-top: 1.5rem;
             padding-bottom: 2rem;
             max-width: 100%;
-            padding-left: 2rem;
-            padding-right: 2rem;
+            padding-left: 3rem;
+            padding-right: 3rem;
         }
 
         [data-testid="stSidebar"] {
@@ -120,6 +151,10 @@ def apply_custom_style():
             border-radius: 6px;
         }
 
+        [data-testid="stMarkdownContainer"] p {
+            font-size: 18px !important;
+            line-height: 1.6;
+        }
         .stAlert {
             border-radius: 6px;
             border: 1px solid var(--border);
@@ -156,6 +191,7 @@ def apply_custom_style():
         </style>
         """,
         unsafe_allow_html=True,
+        
     )
 
 
