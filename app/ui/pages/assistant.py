@@ -3,37 +3,37 @@ import streamlit as st
 
 def assistant_page():
     st.title("Assistant")
-    st.write("Ask questions about the organization’s documents.")
+    st.write("Bonjour, votre assistant pour explorer les documents de l’organisation.")
 
     question = st.text_input(
         "Question",
-        placeholder="e.g. How many remote work days are allowed?",
+        placeholder="e.g. Combien de jours de travail à distance sont autorisés ?",
     )
-    use_intent_classifier = st.checkbox("Use intent classification", value=True)
+    use_intent_classifier = st.checkbox("Classification d'intention", value=False)
 
     if st.button("Ask"):
         if not question.strip():
-            st.warning("Please enter a question.")
+            st.warning("Veuillez saisir une question.")
             st.stop()
 
         pipeline = st.session_state.pipeline
 
-        with st.spinner("Searching documents..."):
+        with st.spinner("Recherche de documents..."):
             try:
                 answer, chunks = pipeline.ask(
                     question,
                     use_intent_classifier=use_intent_classifier,
                 )
             except Exception as e:
-                st.error(f"Unable to answer your question.\n\n{e}")
+                st.error(f"Impossible de répondre à votre question.\n\n{e}")
                 st.stop()
 
-        st.subheader("Answer")
+        st.subheader("Réponse")
         st.markdown(answer)
 
         with st.expander("Sources"):
             if not chunks:
-                st.info("No relevant documents found.")
+                st.info("Aucun document pertinent trouvé.")
             else:
                 for i, chunk in enumerate(chunks, start=1):
                     payload = chunk.payload
