@@ -22,49 +22,6 @@ def documents_page():
         st.metric("Vecteurs", stats.get("vectors", 0))
 
     st.divider()
-
-    try:
-        documents = manager.list_documents()
-    except Exception as e:
-        st.error(f"Impossible de récupérer la liste des documents.\n\n{e}")
-        documents = []
-
-    if not documents:
-        st.info("Aucun document indexé.")
-    else:
-        st.subheader("Documents indexés")
-        for document in documents:
-            col1, col2 = st.columns([5, 1])
-            with col1:
-                st.write(document)
-            with col2:
-                if st.button("Supprimer", key=f"delete_{document}", help="Remove document"):
-                    st.session_state.document_to_delete = document
-                    st.rerun()
-
-    if "document_to_delete" not in st.session_state:
-        st.session_state.document_to_delete = None
-
-    if st.session_state.document_to_delete is not None:
-        document = st.session_state.document_to_delete
-        st.warning(f"Êtes-vous sûr de vouloir supprimer '{document}'?")
-
-        col1, col2 = st.columns(2)
-        with col1:
-            if st.button("Supprimer", key="confirm_delete"):
-                try:
-                    manager.remove_document(document)
-                except Exception as e:
-                    st.error(f"Impossible de supprimer le document.\n\n{e}")
-                st.success(f"{document} supprimé avec succès.")
-                st.session_state.document_to_delete = None
-                st.rerun()
-        with col2:
-            if st.button("Annuler", key="cancel_delete"):
-                st.session_state.document_to_delete = None
-                st.rerun()
-
-    st.divider()
     st.subheader("Charger Document")
 
     if "uploader_key" not in st.session_state:
@@ -116,6 +73,48 @@ def documents_page():
                         st.info("Replacement annulé.")
                         st.session_state.uploader_key += 1
                         st.rerun()
+
+    st.divider()
+    try:
+        documents = manager.list_documents()
+    except Exception as e:
+        st.error(f"Impossible de récupérer la liste des documents.\n\n{e}")
+        documents = []
+
+    if not documents:
+        st.info("Aucun document indexé.")
+    else:
+        st.subheader("Documents indexés")
+        for document in documents:
+            col1, col2 = st.columns([5, 1])
+            with col1:
+                st.write(document)
+            with col2:
+                if st.button("Supprimer", key=f"delete_{document}", help="Remove document"):
+                    st.session_state.document_to_delete = document
+                    st.rerun()
+
+    if "document_to_delete" not in st.session_state:
+        st.session_state.document_to_delete = None
+
+    if st.session_state.document_to_delete is not None:
+        document = st.session_state.document_to_delete
+        st.warning(f"Êtes-vous sûr de vouloir supprimer '{document}'?")
+
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("Supprimer", key="confirm_delete"):
+                try:
+                    manager.remove_document(document)
+                except Exception as e:
+                    st.error(f"Impossible de supprimer le document.\n\n{e}")
+                st.success(f"{document} supprimé avec succès.")
+                st.session_state.document_to_delete = None
+                st.rerun()
+        with col2:
+            if st.button("Annuler", key="cancel_delete"):
+                st.session_state.document_to_delete = None
+                st.rerun()
 
     st.divider()
     st.subheader("Vider la base de données")
