@@ -31,6 +31,7 @@ OLLAMA_MODEL = os.getenv("OLLAMA_MODEL")
 LLM_TEMPERATURE = float(os.getenv("LLM_TEMPERATURE", "0.0"))
 NUM_CTX = int(os.getenv("NUM_CTX", "2048"))
 NUM_PREDICT = int(os.getenv("NUM_PREDICT", "512"))
+OLLAMA_TIMEOUT = int(os.getenv("OLLAMA_TIMEOUT", "60"))
 # -----------------------------------------------------------------------------
 # Embeddings
 # -----------------------------------------------------------------------------

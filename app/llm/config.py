@@ -1,9 +1,10 @@
 from app.config import settings
 
+
 OLLAMA_MODEL = settings.OLLAMA_MODEL
+OLLAMA_HOST = settings.OLLAMA_HOST
+OLLAMA_TIMEOUT = settings.OLLAMA_TIMEOUT
 
 TEMPERATURE = settings.LLM_TEMPERATURE
-
 NUM_CTX = settings.NUM_CTX
-
 NUM_PREDICT = settings.NUM_PREDICT

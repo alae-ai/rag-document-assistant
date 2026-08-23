@@ -19,6 +19,11 @@ class LLM:
     def __init__(self):
         self.model = OLLAMA_MODEL
 
+        self.client = ollama.Client(
+            host=OLLAMA_HOST,
+            timeout=OLLAMA_TIMEOUT,
+        )
+
         logger.debug(
             f"LLM initialized with model '{self.model}'."
         )
@@ -38,7 +43,7 @@ class LLM:
                 f"Sending prompt to model '{self.model}'."
             )
 
-            response = ollama.chat(
+            response = self.client.chat(
                 model=self.model,
                 messages=[
                     {
