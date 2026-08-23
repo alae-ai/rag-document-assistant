@@ -1,7 +1,4 @@
 from pathlib import Path
-from app.utils.logger import get_logger
-
-logger = get_logger(__name__)
 
 from app.prompting.config import (
     PROMPT_TEMPLATE,
@@ -10,40 +7,47 @@ from app.prompting.config import (
     USE_CHUNK_SEPARATORS,
     CHUNK_SEPARATOR,
 )
+from app.utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 
 class PromptBuilder:
     """
-    Builds the prompt sent to the language model.
+    Builds prompts sent to the language model.
     """
 
     def __init__(self):
         self.system_prompt = self._load_prompt(PROMPT_TEMPLATE)
-    
+
     def _load_prompt(self, filename: str) -> str:
         """
         Load a prompt template from the prompts directory.
 
-        Parameters
-        ----------
-        filename : str
-            Prompt filename.
+        Args:
+            filename: Name of the prompt file.
 
-        Returns
-        -------
-        str
+        Returns:
             Prompt content.
         """
 
-        prompt_path = Path("prompts") / filename
+        project_root = Path(__file__).resolve().parents[2]
+        prompt_path = project_root / "prompts" / filename
 
         try:
-            with open(prompt_path, "r", encoding="utf-8") as f:
-                return f.read().strip()
+            with prompt_path.open("r", encoding="utf-8") as file:
+                return file.read().strip()
 
-        except Exception:
+        except FileNotFoundError:
+            logger.error(
+                "Prompt template not found: '%s'.",
+                prompt_path,
+            )
+            raise
+
+        except OSError:
             logger.exception(
-                "Failed to load prompt template '%s'.",
+                "Failed to read prompt template '%s'.",
                 prompt_path,
             )
             raise
@@ -52,14 +56,10 @@ class PromptBuilder:
         """
         Build the prompt used for intent classification.
 
-        Parameters
-        ----------
-        message : str
-            User message.
+        Args:
+            message: User message.
 
-        Returns
-        -------
-        str
+        Returns:
             Complete intent classification prompt.
         """
 
@@ -69,27 +69,28 @@ class PromptBuilder:
 
         return prompt.format(message=message)
 
-
-    def build(self, question, retrieved_chunks):
+    def build(self, question: str, retrieved_chunks: list) -> str:
         """
         Build the complete RAG prompt.
 
         Args:
-            question (str): User question.
-            retrieved_chunks (list): Retrieved chunks returned by Qdrant.
+            question: User question.
+            retrieved_chunks: Chunks returned by Qdrant.
 
         Returns:
-            str: Complete prompt.
+            Complete RAG prompt.
         """
 
         context_parts = []
 
         for chunk in retrieved_chunks:
-
             text = chunk.payload.get("text", "")
 
             if INCLUDE_SOURCES:
-                source = chunk.payload.get("source", "Unknown source")
+                source = chunk.payload.get(
+                    "source",
+                    "Unknown source",
+                )
                 text = f"Source: {source}\n{text}"
 
             context_parts.append(text)
@@ -99,59 +100,41 @@ class PromptBuilder:
         else:
             context = "\n\n".join(context_parts)
 
-        # Prevent sending an excessively long context to the LLM
         context = context[:MAX_CONTEXT_LENGTH]
 
         prompt = f"""
 {self.system_prompt}
 
-==============================
-CONTEXT
-==============================
-
 {context}
 
-==============================
-QUESTION
-==============================
-
 {question}
-
-==============================
-ANSWER
-==============================
 """
 
         return prompt.strip()
-
 
     def build_chat_prompt(self, message: str) -> str:
         """
         Build a prompt for general conversation.
 
-        Parameters
-        ----------
-        message : str
-            User message.
+        Args:
+            message: User message.
 
-        Returns
-        -------
-        str
+        Returns:
             Complete chat prompt.
         """
 
         prompt = f"""
-    {self.system_prompt}
+{self.system_prompt}
 
-    ==============================
-    USER MESSAGE
-    ==============================
+==============================
+USER MESSAGE
+==============================
 
-    {message}
+{message}
 
-    ==============================
-    ANSWER
-    ==============================
-    """
+==============================
+ANSWER
+==============================
+"""
 
         return prompt.strip()
