@@ -16,12 +16,12 @@ class LoaderFactory:
     """
 
     @staticmethod
-    def get_loader(file_path: str): 
+    def get_loader(file_path: str):
         """
         Return the appropriate loader for the given file.
 
         Args:
-            file_path (str): Path to the document.
+            file_path: Path to the temporary document.
 
         Returns:
             PDFLoader | DOCXLoader | TXTLoader
@@ -29,27 +29,31 @@ class LoaderFactory:
         Raises:
             ValueError: If the file type is not supported.
         """
+
         extension = Path(file_path).suffix.lower()
 
         logger.debug(
-            f"Selecting loader for '{file_path}' "
-            f"(extension: {extension})"
+            "Selecting loader for '%s' (extension: %s)",
+            file_path,
+            extension,
         )
 
-        if extension == ".pdf":
-            return PDFLoader(file_path)
+        loaders = {
+            ".pdf": PDFLoader,
+            ".docx": DOCXLoader,
+            ".txt": TXTLoader,
+        }
 
-        if extension == ".docx":
-            return DOCXLoader(file_path)
+        loader_class = loaders.get(extension)
 
-        if extension == ".txt":
-            return TXTLoader(file_path)
+        if loader_class is None:
+            logger.error(
+                "Unsupported file type: '%s' for file '%s'.",
+                extension,
+                file_path,
+            )
+            raise ValueError(
+                f"Unsupported file type: {extension}"
+            )
 
-        logger.error(
-            f"Unsupported file type: '{extension}' "
-            f"for file '{file_path}'."
-        )
-
-        raise ValueError(
-            f"Unsupported file type: {extension}"
-        )
+        return loader_class(file_path)
