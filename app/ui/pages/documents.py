@@ -22,7 +22,7 @@ def documents_page():
         st.metric("Vecteurs", stats.get("vectors", 0))
 
     st.divider()
-    
+
     st.subheader("Charger Document")
 
     if "uploader_key" not in st.session_state:
@@ -38,40 +38,59 @@ def documents_page():
         st.success(f"Document chargé: {uploaded_file.name}")
 
         if st.button("Indexer le Document"):
-            destination = Path("data/raw") / uploaded_file.name
-            destination.write_bytes(uploaded_file.getbuffer())
-
             try:
-                result = manager.add_document(str(destination))
+                result = manager.add_document(uploaded_file)
+
             except Exception as e:
-                if destination.exists():
-                    destination.unlink()
-                st.error(f"Impossible de indexer le document.\n\n{e}")
+                st.error(
+                    f"Impossible d'indexer le document.\n\n{e}"
+                )
                 return
 
             if result:
-                st.success(f"{uploaded_file.name} document indexé avec succès.")
+                st.success(
+                    f"{uploaded_file.name} document indexé avec succès."
+                )
+
                 st.session_state.uploader_key += 1
                 st.rerun()
+
             else:
-                st.warning(f"{uploaded_file.name} document déjà indexé. Vous pouvez le remplacer si nécessaire.")
+                st.warning(
+                    f"{uploaded_file.name} document déjà indexé. "
+                    "Vous pouvez le remplacer si nécessaire."
+                )
 
                 col1, col2 = st.columns(2)
+
                 with col1:
-                    if st.button("Remplacer le Document", key=f"replace_{uploaded_file.name}"):
+                    if st.button(
+                        "Remplacer le Document",
+                        key=f"replace_{uploaded_file.name}",
+                    ):
                         try:
-                            manager.replace_document(str(destination))
+                            manager.replace_document(uploaded_file)
+
                         except Exception as e:
-                            if destination.exists():
-                                destination.unlink()
-                            st.error(f"Impossible de remplacer le document.\n\n{e}")
+                            st.error(
+                                f"Impossible de remplacer le document.\n\n{e}"
+                            )
                             return
-                        st.success(f"{uploaded_file.name} remplacé avec succès.")
+
+                        st.success(
+                            f"{uploaded_file.name} remplacé avec succès."
+                        )
+
                         st.session_state.uploader_key += 1
                         st.rerun()
+
                 with col2:
-                    if st.button("Annuler", key=f"cancel_{uploaded_file.name}"):
-                        st.info("Replacement annulé.")
+                    if st.button(
+                        "Annuler",
+                        key=f"cancel_{uploaded_file.name}",
+                    ):
+                        st.info("Remplacement annulé.")
+
                         st.session_state.uploader_key += 1
                         st.rerun()
     st.divider()
