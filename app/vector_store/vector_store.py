@@ -22,8 +22,6 @@ from app.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
-from pathlib import Path
-
 
 class VectorStore:
     """
@@ -32,7 +30,9 @@ class VectorStore:
 
     def __init__(self):
         logger.debug(
-            f"Initializing Qdrant client ({QDRANT_HOST}:{QDRANT_PORT})"
+            "Initializing Qdrant client (%s:%s)",
+            QDRANT_HOST,
+            QDRANT_PORT,
         )
 
         self.client = QdrantClient(
@@ -46,13 +46,15 @@ class VectorStore:
         """
         Create the collection if it does not already exist.
         """
+
         try:
             collections = self.client.get_collections().collections
-            existing_names = [c.name for c in collections]
+            existing_names = [collection.name for collection in collections]
 
             if COLLECTION_NAME in existing_names:
                 logger.info(
-                    f"Collection '{COLLECTION_NAME}' already exists."
+                    "Collection '%s' already exists.",
+                    COLLECTION_NAME,
                 )
                 return
 
@@ -65,12 +67,14 @@ class VectorStore:
             )
 
             logger.info(
-                f"Collection '{COLLECTION_NAME}' created successfully."
+                "Collection '%s' created successfully.",
+                COLLECTION_NAME,
             )
 
         except Exception:
             logger.exception(
-                f"Failed to create collection '{COLLECTION_NAME}'."
+                "Failed to create collection '%s'.",
+                COLLECTION_NAME,
             )
             raise
 
@@ -81,7 +85,7 @@ class VectorStore:
 
         try:
             collections = self.client.get_collections().collections
-            return [c.name for c in collections]
+            return [collection.name for collection in collections]
 
         except Exception:
             logger.exception("Failed to list collections.")
@@ -92,39 +96,53 @@ class VectorStore:
         Generate embeddings and insert documents into Qdrant.
 
         Args:
-            documents (list[Document]): LangChain documents.
+            documents: List of LangChain Document objects.
         """
+
         try:
             logger.info(
-                f"Generating embeddings for {len(documents)} document(s)."
+                "Generating embeddings for %d document(s).",
+                len(documents),
             )
 
-            texts = [doc.page_content for doc in documents]
+            texts = [document.page_content for document in documents]
 
             embeddings = self.embedding_model.embed_documents(texts)
 
             logger.info(
-                f"Generated {len(embeddings)} embedding(s)."
+                "Generated %d embedding(s).",
+                len(embeddings),
             )
 
             points = []
 
-            for i, (doc, embedding) in enumerate(zip(documents, embeddings)):
+            for chunk_id, (document, embedding) in enumerate(
+                zip(documents, embeddings)
+            ):
+                source = document.metadata.get(
+                    "source",
+                    "unknown",
+                )
+
+                # Store only the document name, never the
+                # temporary/local filesystem path.
+                source = str(source).split("/")[-1].split("\\")[-1]
 
                 point = PointStruct(
                     id=str(uuid4()),
                     vector=embedding,
                     payload={
-                        "text": doc.page_content,
-                        "source": Path(doc.metadata.get("source", "")).name,
-                        "chunk_id": i,
+                        "text": document.page_content,
+                        "source": source,
+                        "chunk_id": chunk_id,
                     },
                 )
 
                 points.append(point)
 
             logger.info(
-                f"Inserting {len(points)} vector(s) into Qdrant."
+                "Inserting %d vector(s) into Qdrant.",
+                len(points),
             )
 
             self.client.upsert(
@@ -133,7 +151,8 @@ class VectorStore:
             )
 
             logger.info(
-                f"Successfully inserted {len(points)} vector(s) into Qdrant."
+                "Successfully inserted %d vector(s) into Qdrant.",
+                len(points),
             )
 
         except Exception:
@@ -142,12 +161,11 @@ class VectorStore:
             )
             raise
 
-
-
     def count_vectors(self):
         """
         Return the number of vectors stored in the collection.
         """
+
         try:
             return self.client.count(
                 collection_name=COLLECTION_NAME
@@ -164,10 +182,10 @@ class VectorStore:
         Check whether a document is already indexed.
 
         Args:
-            source (str): Document filename.
+            source: Document name.
 
         Returns:
-            bool: True if the document exists, False otherwise.
+            True if the document exists, otherwise False.
         """
 
         try:
@@ -189,7 +207,7 @@ class VectorStore:
             exists = len(records) > 0
 
             logger.info(
-                "Document '%s' exists: %s",
+                "Document '%s' exists: %s.",
                 source,
                 exists,
             )
@@ -202,7 +220,7 @@ class VectorStore:
                 source,
             )
             raise
-        
+
     def clear_collection(self):
         """
         Remove all vectors from the collection while keeping
@@ -238,19 +256,18 @@ class VectorStore:
         """
         Return a sorted list of indexed document sources.
         """
+
         try:
             logger.info("Listing indexed documents.")
 
             documents = set()
 
-            scroll_result = self.client.scroll(
+            points, _ = self.client.scroll(
                 collection_name=COLLECTION_NAME,
                 with_payload=True,
                 with_vectors=False,
                 limit=10000,
             )
-
-            points = scroll_result[0]
 
             for point in points:
                 source = point.payload.get("source")
@@ -261,7 +278,8 @@ class VectorStore:
             documents = sorted(documents)
 
             logger.info(
-                f"Found {len(documents)} indexed document(s)."
+                "Found %d indexed document(s).",
+                len(documents),
             )
 
             return documents
@@ -277,11 +295,14 @@ class VectorStore:
         Delete all vectors belonging to a document.
 
         Args:
-            source (str): Document name stored in the payload
-                        (e.g. "company_policy.txt").
+            source: Document name stored in the payload.
         """
+
         try:
-            logger.info(f"Deleting document '{source}'.")
+            logger.info(
+                "Deleting document '%s'.",
+                source,
+            )
 
             self.client.delete(
                 collection_name=COLLECTION_NAME,
@@ -297,20 +318,27 @@ class VectorStore:
                 ),
             )
 
-            logger.info(f"Document '{source}' deleted successfully.")
+            logger.info(
+                "Document '%s' deleted successfully.",
+                source,
+            )
 
         except Exception:
             logger.exception(
-                f"Failed to delete document '{source}'."
+                "Failed to delete document '%s'.",
+                source,
             )
             raise
-        
+
     def get_statistics(self):
         """
         Return collection statistics.
         """
+
         try:
-            logger.info("Collecting vector store statistics.")
+            logger.info(
+                "Collecting vector store statistics."
+            )
 
             statistics = {
                 "documents": len(self.list_documents()),
@@ -318,7 +346,8 @@ class VectorStore:
             }
 
             logger.info(
-                f"Statistics: {statistics}"
+                "Statistics: %s",
+                statistics,
             )
 
             return statistics
