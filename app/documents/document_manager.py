@@ -1,12 +1,8 @@
-import shutil
-import tempfile
-from pathlib import Path
 from app.chunking.chunker import Chunker
 from app.loaders.loader_factory import LoaderFactory
 from app.utils.text_cleaner import TextCleaner
 from app.vector_store.vector_store import VectorStore
 from app.utils.logger import get_logger
-
 
 logger = get_logger(__name__)
 
@@ -16,7 +12,7 @@ class DocumentManager:
     Handles the complete document ingestion pipeline.
 
     Pipeline:
-        File
+        Document content
             ↓
         LoaderFactory
             ↓
@@ -31,24 +27,34 @@ class DocumentManager:
         self.chunker = Chunker()
         self.vector_store = VectorStore()
 
-    def add_document(self, file_path: str):
+    def add_document(self, file_content: bytes, filename: str):
         """
-        Load, clean, chunk and index a document using a temporary file.
+        Load, clean, chunk and index a document.
 
-        The original file is not permanently stored by the application.
+        Args:
+            file_content: Document content in bytes.
+            filename: Document filename.
         """
-
-        original_path = Path(file_path)
-
-        if not original_path.exists():
-            logger.error("Document not found: %s", original_path)
-            raise FileNotFoundError(original_path)
-
-        filename = original_path.name
 
         logger.info("Adding document: %s", filename)
 
-        # Check if already indexed
+        # --------------------------------
+        # Validate content
+        # --------------------------------
+
+        if not file_content:
+            logger.error(
+                "Document '%s' is empty.",
+                filename,
+            )
+            raise ValueError(
+                f"Document '{filename}' is empty."
+            )
+
+        # --------------------------------
+        # Duplicate check
+        # --------------------------------
+
         if self.document_exists(filename):
             logger.warning(
                 "Document '%s' already exists.",
@@ -56,55 +62,33 @@ class DocumentManager:
             )
             return False
 
-        temporary_path = None
-
         try:
-            # --------------------------------
-            # Create temporary file
-            # --------------------------------
-
-            suffix = original_path.suffix
-
-            with tempfile.NamedTemporaryFile(
-                suffix=suffix,
-                delete=False,
-            ) as temp_file:
-
-                temporary_path = Path(temp_file.name)
-
-                with open(original_path, "rb") as source:
-                    shutil.copyfileobj(source, temp_file)
-
-            logger.debug(
-                "Temporary file created: %s",
-                temporary_path,
-            )
-
             # --------------------------------
             # Load
             # --------------------------------
 
             loader = LoaderFactory.get_loader(
-                str(temporary_path)
+                file_content,
+                filename,
             )
 
             documents = loader.load()
-
-            # Keep the original filename as metadata
-            for document in documents:
-                document.metadata["source"] = filename
 
             # --------------------------------
             # Clean
             # --------------------------------
 
-            documents = TextCleaner.clean_documents(documents)
+            documents = TextCleaner.clean_documents(
+                documents
+            )
 
             # --------------------------------
             # Chunk
             # --------------------------------
 
-            chunks = self.chunker.split_documents(documents)
+            chunks = self.chunker.split_documents(
+                documents
+            )
 
             # --------------------------------
             # Store
@@ -127,35 +111,12 @@ class DocumentManager:
             )
             raise
 
-        finally:
-            # --------------------------------
-            # Delete temporary file
-            # --------------------------------
-
-            if temporary_path and temporary_path.exists():
-
-                try:
-                    temporary_path.unlink()
-
-                    logger.debug(
-                        "Temporary file deleted: %s",
-                        temporary_path,
-                    )
-
-                except OSError:
-                    logger.exception(
-                        "Failed to delete temporary file: %s",
-                        temporary_path,
-                    )
-
-
     def remove_document(self, document_name: str):
         """
-        Remove a document from the vector database
-        and from the local storage.
+        Remove a document from the vector database.
 
         Args:
-            document_name (str): File name.
+            document_name: Document filename.
         """
 
         logger.info(
@@ -163,27 +124,9 @@ class DocumentManager:
             document_name,
         )
 
-        # Remove vectors
-        self.vector_store.delete_document(document_name)
-
-        # Remove local file
-        file_path = Path.cwd() / "data" / "raw" / document_name
-        
-        if file_path.exists():
-
-            file_path.unlink()
-
-            logger.info(
-                "Deleted file '%s'.",
-                document_name,
-            )
-
-        else:
-
-            logger.warning(
-                "File '%s' not found on disk.",
-                document_name,
-            )
+        self.vector_store.delete_document(
+            document_name
+        )
 
         logger.info(
             "Document '%s' removed successfully.",
@@ -197,14 +140,15 @@ class DocumentManager:
         Check whether a document is already indexed.
 
         Args:
-            filename (str): Document filename.
+            filename: Document filename.
 
         Returns:
             bool: True if document exists, False otherwise.
         """
 
-        return self.vector_store.document_exists(filename)
-
+        return self.vector_store.document_exists(
+            filename
+        )
 
     def list_documents(self):
         """
@@ -227,8 +171,17 @@ class DocumentManager:
 
         return self.vector_store.get_statistics()
 
-    def replace_document(self, file_path: str):
-        filename = Path(file_path).name
+    def replace_document(
+        self,
+        file_content: bytes,
+        filename: str,
+    ):
+        """
+        Replace an indexed document with new content.
+
+        The existing vectors are deleted and the new
+        document is indexed.
+        """
 
         logger.info(
             "Replacing document '%s'.",
@@ -236,21 +189,17 @@ class DocumentManager:
         )
 
         try:
-            if not Path(file_path).exists():
-                logger.error(
-                    "Replacement document not found: %s",
-                    file_path,
-                )
-                raise FileNotFoundError(file_path)
-
             if self.document_exists(filename):
                 self.remove_document(filename)
 
-            result = self.add_document(file_path)
+            result = self.add_document(
+                file_content,
+                filename,
+            )
 
             if not result:
                 logger.warning(
-                    "Document '%s' was not replaced because it still exists.",
+                    "Document '%s' was not replaced.",
                     filename,
                 )
                 return False
