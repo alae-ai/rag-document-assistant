@@ -30,6 +30,7 @@ OLLAMA_HOST = os.getenv("OLLAMA_HOST")
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL")
 LLM_TEMPERATURE = float(os.getenv("LLM_TEMPERATURE", "0.0"))
 NUM_CTX = int(os.getenv("NUM_CTX", "2048"))
+NUM_PREDICT = int(os.getenv("NUM_PREDICT", "512"))
 # -----------------------------------------------------------------------------
 # Embeddings
 # -----------------------------------------------------------------------------

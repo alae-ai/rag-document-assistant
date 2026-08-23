@@ -4,6 +4,7 @@ from app.llm.config import (
     OLLAMA_MODEL,
     TEMPERATURE,
     NUM_CTX,
+    NUM_PREDICT,
 )
 from app.utils.logger import get_logger
 
@@ -48,6 +49,7 @@ class LLM:
                 options={
                     "temperature": TEMPERATURE,
                     "num_ctx": NUM_CTX,
+                    "num_predict": NUM_PREDICT,
                 },
             )
 
