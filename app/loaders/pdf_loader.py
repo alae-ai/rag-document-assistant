@@ -1,4 +1,6 @@
-from langchain_community.document_loaders import PyPDFLoader
+from io import BytesIO
+
+from pypdf import PdfReader
 
 from app.utils.logger import get_logger
 
@@ -6,35 +8,46 @@ logger = get_logger(__name__)
 
 
 class PDFLoader:
-    """
-    Loads a PDF document using LangChain's PyPDFLoader.
-    """
+    """Loads a PDF document from in-memory content."""
 
-    def __init__(self, file_path: str):
-        self.file_path = file_path
+    def __init__(self, file_content: bytes, filename: str):
+        self.file_content = file_content
+        self.filename = filename
 
     def load(self):
-        """
-        Load the PDF document.
+        """Load the PDF document."""
 
-        Returns:
-            list[Document]: LangChain Document objects.
-        """
-        logger.info(f"Loading PDF file: {self.file_path}")
+        logger.info("Loading PDF file: %s", self.filename)
 
         try:
-            loader = PyPDFLoader(self.file_path)
-            documents = loader.load()
+            reader = PdfReader(BytesIO(self.file_content))
+
+            documents = []
+
+            for page_number, page in enumerate(reader.pages):
+                from langchain_core.documents import Document
+
+                documents.append(
+                    Document(
+                        page_content=page.extract_text() or "",
+                        metadata={
+                            "source": self.filename,
+                            "page": page_number,
+                        },
+                    )
+                )
 
             logger.info(
-                f"Successfully loaded {len(documents)} page(s) "
-                f"from '{self.file_path}'."
+                "Successfully loaded %d page(s) from '%s'.",
+                len(documents),
+                self.filename,
             )
 
             return documents
 
         except Exception:
             logger.exception(
-                f"Failed to load PDF file: {self.file_path}"
+                "Failed to load PDF file: %s",
+                self.filename,
             )
             raise

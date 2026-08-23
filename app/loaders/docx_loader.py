@@ -1,4 +1,7 @@
-from langchain_community.document_loaders import Docx2txtLoader
+from io import BytesIO
+
+from docx import Document as DocxDocument
+from langchain_core.documents import Document
 
 from app.utils.logger import get_logger
 
@@ -6,35 +9,42 @@ logger = get_logger(__name__)
 
 
 class DOCXLoader:
-    """
-    Loads a Microsoft Word document using LangChain's Docx2txtLoader.
-    """
+    """Loads a Word document from in-memory content."""
 
-    def __init__(self, file_path: str):
-        self.file_path = file_path
+    def __init__(self, file_content: bytes, filename: str):
+        self.file_content = file_content
+        self.filename = filename
 
     def load(self):
-        """
-        Load the Word document.
+        """Load the Word document."""
 
-        Returns:
-            list[Document]: LangChain Document objects.
-        """
-        logger.info(f"Loading Word document: {self.file_path}")
+        logger.info("Loading Word document: %s", self.filename)
 
         try:
-            loader = Docx2txtLoader(self.file_path)
-            documents = loader.load()
+            docx = DocxDocument(BytesIO(self.file_content))
+
+            text = "\n".join(
+                paragraph.text
+                for paragraph in docx.paragraphs
+            )
+
+            documents = [
+                Document(
+                    page_content=text,
+                    metadata={"source": self.filename},
+                )
+            ]
 
             logger.info(
-                f"Successfully loaded {len(documents)} document(s) "
-                f"from '{self.file_path}'."
+                "Successfully loaded Word document '%s'.",
+                self.filename,
             )
 
             return documents
 
         except Exception:
             logger.exception(
-                f"Failed to load Word document: {self.file_path}"
+                "Failed to load Word document: %s",
+                self.filename,
             )
             raise
