@@ -22,6 +22,7 @@ def documents_page():
         st.metric("Vecteurs", stats.get("vectors", 0))
 
     st.divider()
+    
     st.subheader("Charger Document")
 
     if "uploader_key" not in st.session_state:
@@ -73,7 +74,6 @@ def documents_page():
                         st.info("Replacement annulé.")
                         st.session_state.uploader_key += 1
                         st.rerun()
-
     st.divider()
     try:
         documents = manager.list_documents()

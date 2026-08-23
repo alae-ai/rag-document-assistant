@@ -1,5 +1,3 @@
-import shutil
-import tempfile
 from pathlib import Path
 from app.chunking.chunker import Chunker
 from app.loaders.loader_factory import LoaderFactory
@@ -31,90 +29,84 @@ class DocumentManager:
         self.chunker = Chunker()
         self.vector_store = VectorStore()
 
+
+
+    class DocumentManager:
+    """
+    Handles the complete document ingestion pipeline.
+
+    Pipeline:
+        File
+            ↓
+        LoaderFactory
+            ↓
+        TextCleaner
+            ↓
+        Chunker
+            ↓
+        VectorStore
+    """
+
+    def __init__(self):
+        self.chunker = Chunker()
+        self.vector_store = VectorStore()
+
     def add_document(self, file_path: str):
         """
-        Load, clean, chunk and index a document using a temporary file.
+        Load, clean, chunk and index a document.
 
-        The original file is not permanently stored by the application.
+        Args:
+            file_path (str): Path to the document.
         """
 
-        original_path = Path(file_path)
+        logger.info("Adding document: %s", file_path)
 
-        if not original_path.exists():
-            logger.error("Document not found: %s", original_path)
-            raise FileNotFoundError(original_path)
+        file_path = Path(file_path)
 
-        filename = original_path.name
+        if not file_path.exists():
+            logger.error("Document not found: %s", file_path)
+            raise FileNotFoundError(file_path)
 
-        logger.info("Adding document: %s", filename)
+        # -----------------------------
+        # Duplicate check
+        # -----------------------------
 
-        # Check if already indexed
-        if self.document_exists(filename):
+        if self.document_exists(file_path.name):
             logger.warning(
                 "Document '%s' already exists.",
-                filename,
+                file_path.name,
             )
             return False
 
-        temporary_path = None
-
         try:
-            # --------------------------------
-            # Create temporary file
-            # --------------------------------
-
-            suffix = original_path.suffix
-
-            with tempfile.NamedTemporaryFile(
-                suffix=suffix,
-                delete=False,
-            ) as temp_file:
-
-                temporary_path = Path(temp_file.name)
-
-                with open(original_path, "rb") as source:
-                    shutil.copyfileobj(source, temp_file)
-
-            logger.debug(
-                "Temporary file created: %s",
-                temporary_path,
-            )
-
-            # --------------------------------
+            # -----------------------------
             # Load
-            # --------------------------------
+            # -----------------------------
 
-            loader = LoaderFactory.get_loader(
-                str(temporary_path)
-            )
-
+            loader = LoaderFactory.get_loader(str(file_path))
             documents = loader.load()
 
-            # Keep the original filename as metadata
-            for document in documents:
-                document.metadata["source"] = filename
-
-            # --------------------------------
+            # -----------------------------
             # Clean
-            # --------------------------------
+            # -----------------------------
 
             documents = TextCleaner.clean_documents(documents)
 
-            # --------------------------------
+            # -----------------------------
             # Chunk
-            # --------------------------------
+            # -----------------------------
 
             chunks = self.chunker.split_documents(documents)
 
-            # --------------------------------
+            # -----------------------------
             # Store
-            # --------------------------------
+            # -----------------------------
 
             self.vector_store.add_documents(chunks)
 
             logger.info(
                 "Document '%s' indexed successfully (%d chunks).",
-                filename,
+                file_path.name,
                 len(chunks),
             )
 
@@ -123,31 +115,9 @@ class DocumentManager:
         except Exception:
             logger.exception(
                 "Failed to index document '%s'.",
-                filename,
+                file_path.name,
             )
             raise
-
-        finally:
-            # --------------------------------
-            # Delete temporary file
-            # --------------------------------
-
-            if temporary_path and temporary_path.exists():
-
-                try:
-                    temporary_path.unlink()
-
-                    logger.debug(
-                        "Temporary file deleted: %s",
-                        temporary_path,
-                    )
-
-                except OSError:
-                    logger.exception(
-                        "Failed to delete temporary file: %s",
-                        temporary_path,
-                    )
-
 
     def remove_document(self, document_name: str):
         """
