@@ -11,13 +11,7 @@ class Synchronizer:
     Synchronizes documents from an external source
     with the indexed documents.
 
-    Synchronization is currently based on document names:
-
-    - New document      -> ADD
-    - Missing document  -> DELETE
-    - Existing document -> IGNORE
-
-    Content changes are not detected yet.
+    Synchronization is currently based on document names.
     """
 
     def __init__(
@@ -30,21 +24,17 @@ class Synchronizer:
 
     def sync(self) -> dict:
         """
-        Synchronize the external document source
-        with the vector database.
+        Synchronize the external source with the vector database.
 
         Returns:
-            Dictionary containing synchronization statistics.
+            Synchronization statistics.
         """
 
         logger.info("Starting document synchronization.")
 
-        source_documents = self.source.list_documents()
-
-        source_names = {
-            document.name
-            for document in source_documents
-        }
+        source_names = set(
+            self.source.list_documents()
+        )
 
         indexed_names = set(
             self.document_manager.list_documents()
@@ -54,20 +44,19 @@ class Synchronizer:
         deleted = 0
         skipped = 0
 
+        # --------------------------------
         # Add new documents
-        for document in source_documents:
+        # --------------------------------
 
-            if document.name in indexed_names:
-                logger.debug(
-                    "Document '%s' already indexed. Skipping.",
-                    document.name,
-                )
-                skipped += 1
-                continue
+        for document_name in source_names - indexed_names:
 
             logger.info(
                 "New document detected: '%s'.",
-                document.name,
+                document_name,
+            )
+
+            document = self.source.get_document(
+                document_name
             )
 
             self.document_manager.add_document(
@@ -77,7 +66,18 @@ class Synchronizer:
 
             added += 1
 
-        # Delete documents no longer present in the source
+        # --------------------------------
+        # Existing documents
+        # --------------------------------
+
+        skipped = len(
+            source_names & indexed_names
+        )
+
+        # --------------------------------
+        # Delete removed documents
+        # --------------------------------
+
         for document_name in indexed_names - source_names:
 
             logger.info(

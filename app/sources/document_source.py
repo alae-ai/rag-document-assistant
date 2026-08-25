@@ -36,3 +36,10 @@ class DocumentSource(ABC):
             List of available source documents.
         """
         pass
+    
+    @abstractmethod
+    def get_document(self, name: str) -> SourceDocument:
+        """
+        Retrieve a document from the source.
+        """
+        pass

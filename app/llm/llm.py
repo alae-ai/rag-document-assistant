@@ -2,6 +2,8 @@ import ollama
 
 from app.llm.config import (
     OLLAMA_MODEL,
+    OLLAMA_HOST,
+    OLLAMA_TIMEOUT,
     TEMPERATURE,
     NUM_CTX,
     NUM_PREDICT,

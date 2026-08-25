@@ -6,6 +6,7 @@ import streamlit as st
 from app.documents.document_manager import DocumentManager
 from app.rag.rag_pipeline import RAGPipeline
 
+from app.mcp.google_drive_client import GoogleDriveMCPClient
 
 # ============================================================
 # PATHS
@@ -101,6 +102,14 @@ def apply_custom_style():
             color: var(--text);
         }
 
+        html,
+        body,
+        .stApp,
+        [data-testid="stAppViewContainer"],
+        [data-testid="stSidebar"] {
+            font-size: 17px !important;
+        }
+
         h1,
         h2,
         h3,
@@ -113,25 +122,37 @@ def apply_custom_style():
         }
 
         h1 {
-            font-size: clamp(1.6rem, 2vw, 2rem) !important;
+            font-size: clamp(2rem, 2vw, 2.5rem) !important;
         }
 
         h2 {
-            font-size: clamp(1.35rem, 1.7vw, 1.6rem) !important;
+            font-size: clamp(1.5rem, 1.8vw, 1.9rem) !important;
         }
 
         h3 {
-            font-size: 1.2rem !important;
+            font-size: 1.35rem !important;
         }
 
         p,
         li,
-        label {
+        label,
+        .stMarkdown,
+        .stTextInput label,
+        .stRadio label,
+        .stCheckbox label,
+        .stSelectbox label,
+        .stFileUploader label {
             color: var(--text);
+            font-size: 1.03rem !important;
         }
 
         [data-testid="stMarkdownContainer"] p {
-            line-height: 1.6;
+            line-height: 1.7;
+            font-size: 1.04rem !important;
+        }
+
+        [data-testid="stMetricValue"] {
+            font-size: 2rem !important;
         }
 
 
@@ -450,6 +471,15 @@ if "pipeline" not in st.session_state:
 if "document_manager" not in st.session_state:
     st.session_state.document_manager = load_document_manager()
 
+# ============================================================
+# GOOGLE DRIVE
+# ============================================================
+
+@st.cache_resource
+def load_google_drive_client():
+    return GoogleDriveMCPClient()
+
+google_drive_client = load_google_drive_client()
 
 # ============================================================
 # VIRTUOSO HEADER
@@ -477,6 +507,33 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+# ============================================================
+# GOOGLE DRIVE CONNECTION
+# ============================================================
+
+def connect_google_drive():
+
+    client = google_drive_client
+
+    if client.connected:
+        return True
+
+    try:
+
+        with st.spinner(
+            "Connexion à Google Drive..."
+        ):
+            client.connect()
+
+        return True
+
+    except Exception as error:
+
+        st.error(
+            f"Impossible de se connecter à Google Drive : {error}"
+        )
+
+        return False
 
 # ============================================================
 # PAGES
@@ -506,3 +563,27 @@ pg = st.navigation(
 
 
 pg.run()
+
+# ============================================================
+# GOOGLE DRIVE AUTHENTICATION
+# ============================================================
+
+if not google_drive_client.connected:
+
+    st.markdown(
+        """
+        ## Accès à Google Drive
+
+        Une connexion à Google Drive est nécessaire pour
+        accéder aux documents de l'organisation.
+        """
+    )
+
+    if st.button(
+        "Se connecter à Google Drive",
+        type="primary",
+    ):
+        if connect_google_drive():
+            st.rerun()
+
+    st.stop()
