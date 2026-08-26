@@ -31,7 +31,7 @@ class DocumentManager:
 
 
 
-    class DocumentManager:
+
     """
     Handles the complete document ingestion pipeline.
 
