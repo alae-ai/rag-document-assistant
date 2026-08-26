@@ -1,701 +1,478 @@
-import asyncio
-import base64
-import json
-import threading
-import webbrowser
+import streamlit as st
 
-import httpx2
-
-from http.server import BaseHTTPRequestHandler, HTTPServer
-from urllib.parse import parse_qs, urlparse
-
-from mcp import ClientSession
-from mcp.client.auth import OAuthClientProvider, TokenStorage
-from mcp.client.auth.oauth2 import OAuthToken
-from mcp.client.streamable_http import streamable_http_client
-from mcp.shared.auth import (
-    AuthorizationCodeResult,
-    OAuthClientInformationFull,
-    OAuthClientMetadata,
-)
+#from app.ingestion.google_drive_ingestion import GoogleDriveIngestion
+from app.mcp.google_drive_service import GoogleDriveService
 
 
-# ============================================================
-# In-memory OAuth storage
-# ============================================================
+def documents_page():
+    st.title("Gestion des documents")
 
-class MemoryTokenStorage(TokenStorage):
-    """In-memory storage for OAuth tokens and client information."""
-
-    def __init__(self):
-        self.tokens = None
-        self.client_info = None
-
-    async def get_tokens(self):
-        return self.tokens
-
-    async def set_tokens(self, tokens: OAuthToken):
-        self.tokens = tokens
-
-    async def get_client_info(self):
-        return self.client_info
-
-    async def set_client_info(
-        self,
-        client_info: OAuthClientInformationFull,
-    ):
-        self.client_info = client_info
-
-
-# ============================================================
-# OAuth callback handler
-# ============================================================
-
-class OAuthCallbackHandler(BaseHTTPRequestHandler):
-    """
-    Receives the OAuth callback from Google.
-    """
-
-    loop = None
-    callback_future = None
-
-    def do_GET(self):
-
-        parsed = urlparse(self.path)
-
-        if parsed.path != "/callback":
-            self.send_response(404)
-            self.end_headers()
-            return
-
-        params = parse_qs(parsed.query)
-
-        code = params.get("code", [None])[0]
-        state = params.get("state", [None])[0]
-        iss = params.get("iss", [None])[0]
-
-        error = params.get("error", [None])[0]
-
-        if error:
-            result = AuthorizationCodeResult(
-                code="",
-                state=state,
-                iss=iss,
-            )
-        else:
-            result = AuthorizationCodeResult(
-                code=code or "",
-                state=state,
-                iss=iss,
-            )
-
-        loop = OAuthCallbackHandler.loop
-        future = OAuthCallbackHandler.callback_future
-
-        if loop is not None and future is not None:
-
-            loop.call_soon_threadsafe(
-                future.set_result,
-                result,
-            )
-
-        self.send_response(200)
-
-        self.send_header(
-            "Content-Type",
-            "text/html; charset=utf-8",
-        )
-
-        self.end_headers()
-
-        self.wfile.write(
-            b"""
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset="utf-8">
-                <title>OAuth Authentication</title>
-            </head>
-            <body>
-                <h2>Authentication completed.</h2>
-                <p>You can return to the application.</p>
-            </body>
-            </html>
-            """
-        )
-
-    def log_message(self, format, *args):
-        pass
-
-
-# ============================================================
-# Google Drive MCP Client
-# ============================================================
-
-class GoogleDriveMCPClient:
-    """
-    Synchronous facade around an asynchronous Google Drive MCP
-    client.
-
-    The MCP connection runs inside a dedicated background thread
-    with its own asyncio event loop.
-
-    This makes the client safe to use from Streamlit, whose script
-    is rerun frequently.
-    """
-
-    def __init__(
-        self,
-        mcp_url: str = "http://localhost:3000/mcp",
-        callback_host: str = "localhost",
-        callback_port: int = 8080,
-    ):
-
-        self.mcp_url = mcp_url
-
-        self.callback_host = callback_host
-        self.callback_port = callback_port
-
-        self.callback_url = (
-            f"http://{callback_host}:{callback_port}/callback"
-        )
-
-        # OAuth storage
-        self.storage = MemoryTokenStorage()
-
-        # Background asyncio infrastructure
-        self.loop = None
-        self.thread = None
-
-        # Async MCP resources
-        self.http_client = None
-        self.mcp_context = None
-        self.session = None
-
-        # OAuth callback server
-        self.callback_server = None
-
-        # Synchronization
-        self._ready_event = threading.Event()
-        self._connect_exception = None
-
-        # State
-        self.connected = False
-        self.connecting = False
+    manager = st.session_state.document_manager
 
     # ========================================================
-    # Background event loop
+    # GOOGLE DRIVE SERVICE
     # ========================================================
 
-    def _run_event_loop(self):
-        """
-        Run the asyncio event loop in a dedicated background thread.
-        """
+    if "google_drive_service" not in st.session_state:
+        st.session_state.google_drive_service = None
 
-        self.loop = asyncio.new_event_loop()
+    # ========================================================
+    # STATISTICS
+    # ========================================================
 
-        asyncio.set_event_loop(self.loop)
+    st.subheader("Statistiques")
 
-        self._ready_event.set()
+    try:
+        stats = manager.get_statistics()
 
-        try:
-            self.loop.run_forever()
+    except Exception as e:
+        st.error(
+            f"Impossible de récupérer les statistiques.\n\n{e}"
+        )
 
-        finally:
+        stats = {
+            "documents": 0,
+            "vectors": 0,
+        }
 
-            pending = asyncio.all_tasks(self.loop)
+    col1, col2 = st.columns(2)
 
-            for task in pending:
-                task.cancel()
+    with col1:
+        st.metric(
+            "Documents indexés",
+            stats.get("documents", 0),
+        )
 
-            if pending:
-                self.loop.run_until_complete(
-                    asyncio.gather(
-                        *pending,
-                        return_exceptions=True,
+    with col2:
+        st.metric(
+            "Vecteurs",
+            stats.get("vectors", 0),
+        )
+
+    st.divider()
+
+    # ========================================================
+    # LOCAL FILE UPLOAD
+    # ========================================================
+
+    st.subheader("Charger Document")
+
+    if "uploader_key" not in st.session_state:
+        st.session_state.uploader_key = 0
+
+    uploaded_file = st.file_uploader(
+        "Charger un document (PDF, DOCX, TXT)",
+        type=["pdf", "docx", "txt"],
+        key=f"uploader_{st.session_state.uploader_key}",
+    )
+
+    if uploaded_file is not None:
+
+        st.success(
+            f"Document chargé : {uploaded_file.name}"
+        )
+
+        if st.button("Indexer le Document"):
+
+            try:
+                result = manager.add_document(
+                    uploaded_file.getvalue(),
+                    uploaded_file.name,
+                )
+
+            except Exception as e:
+                st.error(
+                    f"Impossible d'indexer le document.\n\n{e}"
+                )
+                return
+
+            if result:
+
+                st.success(
+                    f"{uploaded_file.name} "
+                    "document indexé avec succès."
+                )
+
+                st.session_state.uploader_key += 1
+                st.rerun()
+
+            else:
+
+                st.warning(
+                    f"{uploaded_file.name} document déjà indexé. "
+                    "Vous pouvez le remplacer si nécessaire."
+                )
+
+                col1, col2 = st.columns(2)
+
+                with col1:
+
+                    if st.button(
+                        "Remplacer le Document",
+                        key=f"replace_{uploaded_file.name}",
+                    ):
+
+                        try:
+
+                            manager.replace_document(
+                                uploaded_file.getvalue(),
+                                uploaded_file.name,
+                            )
+
+                        except Exception as e:
+
+                            st.error(
+                                "Impossible de remplacer "
+                                f"le document.\n\n{e}"
+                            )
+                            return
+
+                        st.success(
+                            f"{uploaded_file.name} "
+                            "remplacé avec succès."
+                        )
+
+                        st.session_state.uploader_key += 1
+                        st.rerun()
+
+                with col2:
+
+                    if st.button(
+                        "Annuler",
+                        key=f"cancel_{uploaded_file.name}",
+                    ):
+
+                        st.session_state.uploader_key += 1
+                        st.rerun()
+
+    st.divider()
+
+    # ========================================================
+    # GOOGLE DRIVE
+    # ========================================================
+
+    st.subheader("Importer depuis Google Drive")
+
+    drive_service = st.session_state.google_drive_service
+
+    # --------------------------------------------------------
+    # Not connected
+    # --------------------------------------------------------
+
+    if drive_service is None:
+
+        if st.button(
+            "Connecter à Google Drive",
+            key="connect_google_drive",
+        ):
+
+            try:
+
+                service = GoogleDriveService()
+
+                # Synchronous API
+                service.connect()
+
+                st.session_state.google_drive_service = service
+
+                st.success(
+                    "Google Drive connecté avec succès."
+                )
+
+                st.rerun()
+
+            except Exception as e:
+
+                st.error(
+                    "Impossible de se connecter "
+                    f"à Google Drive.\n\n{e}"
+                )
+
+    # --------------------------------------------------------
+    # Connected
+    # --------------------------------------------------------
+
+    else:
+
+        st.success("Google Drive est connecté.")
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+
+            if st.button(
+                "Actualiser les fichiers",
+                key="refresh_drive_files",
+            ):
+                st.rerun()
+
+        with col2:
+
+            if st.button(
+                "Déconnecter Google Drive",
+                key="disconnect_google_drive",
+            ):
+
+                try:
+                    drive_service.close()
+
+                except Exception as e:
+                    st.warning(
+                        "Erreur lors de la fermeture "
+                        f"de la connexion : {e}"
                     )
-                )
 
-            self.loop.close()
+                st.session_state.google_drive_service = None
 
-            self.loop = None
+                st.rerun()
 
-    def _start_event_loop(self):
-        """
-        Start the background asyncio thread.
-        """
-
-        if (
-            self.thread is not None
-            and self.thread.is_alive()
-        ):
-            return
-
-        self._ready_event.clear()
-
-        self.thread = threading.Thread(
-            target=self._run_event_loop,
-            name="google-drive-mcp-loop",
-            daemon=True,
-        )
-
-        self.thread.start()
-
-        self._ready_event.wait()
-
-    # ========================================================
-    # Run coroutine in background loop
-    # ========================================================
-
-    def _run_async(self, coroutine):
-        """
-        Execute a coroutine in the background event loop and wait
-        synchronously for its result.
-        """
-
-        if self.loop is None:
-            raise RuntimeError(
-                "Google Drive event loop is not running."
-            )
-
-        future = asyncio.run_coroutine_threadsafe(
-            coroutine,
-            self.loop,
-        )
-
-        return future.result()
-
-    # ========================================================
-    # OAuth callback server
-    # ========================================================
-
-    def _start_callback_server(self):
-
-        if self.callback_server is not None:
-            return
-
-        self.callback_server = HTTPServer(
-            (
-                self.callback_host,
-                self.callback_port,
-            ),
-            OAuthCallbackHandler,
-        )
-
-        thread = threading.Thread(
-            target=self.callback_server.serve_forever,
-            name="google-drive-oauth-callback",
-            daemon=True,
-        )
-
-        thread.start()
-
-    def _stop_callback_server(self):
-
-        if self.callback_server is None:
-            return
-
-        self.callback_server.shutdown()
-
-        self.callback_server.server_close()
-
-        self.callback_server = None
-
-    # ========================================================
-    # OAuth redirect
-    # ========================================================
-
-    async def _redirect_handler(self, url: str):
-
-        print(
-            "\nOpening Google OAuth authorization page..."
-        )
-
-        print(
-            "\nAuthorization URL:"
-        )
-
-        print(url)
-
-        print(
-            f"\nWaiting for OAuth callback on "
-            f"{self.callback_url} ..."
-        )
-
-        webbrowser.open(url)
-
-    # ========================================================
-    # OAuth callback
-    # ========================================================
-
-    async def _callback_handler(self):
-
-        loop = asyncio.get_running_loop()
-
-        future = loop.create_future()
-
-        OAuthCallbackHandler.loop = loop
-        OAuthCallbackHandler.callback_future = future
+        # ----------------------------------------------------
+        # Retrieve Drive files
+        # ----------------------------------------------------
 
         try:
 
-            result = await future
+            files = drive_service.list_files()
 
-            if not result.code:
-                raise RuntimeError(
-                    "OAuth authorization failed."
-                )
+        except Exception as e:
 
-            return result
-
-        finally:
-
-            OAuthCallbackHandler.loop = None
-            OAuthCallbackHandler.callback_future = None
-
-    # ========================================================
-    # Async connection
-    # ========================================================
-
-    async def _connect_async(self):
-
-        if self.session is not None:
-            return
-
-        print(
-            "Connecting to Google Drive MCP server..."
-        )
-
-        client_metadata = OAuthClientMetadata(
-            redirect_uris=[
-                self.callback_url
-            ],
-
-            token_endpoint_auth_method="none",
-
-            grant_types=[
-                "authorization_code",
-                "refresh_token",
-            ],
-
-            application_type="native",
-        )
-
-        auth_provider = OAuthClientProvider(
-            server_url=self.mcp_url,
-
-            client_metadata=client_metadata,
-
-            storage=self.storage,
-
-            redirect_handler=self._redirect_handler,
-
-            callback_handler=self._callback_handler,
-        )
-
-        self.http_client = httpx2.AsyncClient(
-            auth=auth_provider,
-            timeout=60.0,
-        )
-
-        self.mcp_context = streamable_http_client(
-            self.mcp_url,
-            http_client=self.http_client,
-        )
-
-        read_stream, write_stream = (
-            await self.mcp_context.__aenter__()
-        )
-
-        self.session = ClientSession(
-            read_stream,
-            write_stream,
-        )
-
-        await self.session.__aenter__()
-
-        print(
-            "Initializing MCP session..."
-        )
-
-        await self.session.initialize()
-
-        print(
-            "Google Drive MCP connection established."
-        )
-
-    # ========================================================
-    # Connect
-    # ========================================================
-
-    def connect(self):
-
-        if self.connected:
-            return
-
-        if self.connecting:
-            return
-
-        self.connecting = True
-
-        self._connect_exception = None
-
-        try:
-
-            self._start_event_loop()
-
-            self._start_callback_server()
-
-            self._run_async(
-                self._connect_async()
+            st.error(
+                "Impossible de récupérer les fichiers "
+                f"Google Drive.\n\n{e}"
             )
 
-            self.connected = True
+            files = []
 
-        except Exception as error:
+        # ----------------------------------------------------
+        # Filter files
+        # ----------------------------------------------------
 
-            self._connect_exception = error
+        file_options = {
+            file["name"]: file
+            for file in files
+            if file.get("mimeType")
+            != "application/vnd.google-apps.folder"
+        }
 
-            self.close()
+        if file_options:
 
-            raise
+            selected_name = st.selectbox(
+                "Sélectionner un fichier",
+                list(file_options.keys()),
+                key="google_drive_file",
+            )
 
-        finally:
+            selected_file = file_options[selected_name]
 
-            self.connecting = False
+            if st.button(
+                "Importer depuis Google Drive",
+                key="import_google_drive_file",
+            ):
+
+                try:
+
+                    ingestion = GoogleDriveIngestion(
+                        drive_client=drive_service,
+                        document_manager=manager,
+                    )
+
+                    result = ingestion.ingest_file(
+                        file_id=selected_file["id"],
+                        filename=selected_file["name"],
+                    )
+
+                    if result:
+
+                        st.success(
+                            f"{selected_file['name']} "
+                            "a été importé et indexé "
+                            "avec succès."
+                        )
+
+                        st.rerun()
+
+                    else:
+
+                        st.warning(
+                            f"{selected_file['name']} "
+                            "est déjà indexé."
+                        )
+
+                except Exception as e:
+
+                    st.error(
+                        "Impossible d'importer "
+                        f"le document.\n\n{e}"
+                    )
+
+        else:
+
+            st.info(
+                "Aucun fichier disponible sur Google Drive."
+            )
+
+    st.divider()
 
     # ========================================================
-    # Close
+    # INDEXED DOCUMENTS
     # ========================================================
 
-    async def _close_async(self):
+    try:
 
-        if self.session is not None:
+        documents = manager.list_documents()
 
-            await self.session.__aexit__(
-                None,
-                None,
-                None,
-            )
+    except Exception as e:
 
-            self.session = None
+        st.error(
+            "Impossible de récupérer la liste "
+            f"des documents.\n\n{e}"
+        )
 
-        if self.mcp_context is not None:
+        documents = []
 
-            await self.mcp_context.__aexit__(
-                None,
-                None,
-                None,
-            )
+    if not documents:
 
-            self.mcp_context = None
+        st.info("Aucun document indexé.")
 
-        if self.http_client is not None:
+    else:
 
-            await self.http_client.aclose()
+        st.subheader("Documents indexés")
 
-            self.http_client = None
+        for document in documents:
 
-    def close(self):
+            col1, col2 = st.columns([5, 1])
 
-        if self.loop is not None:
+            with col1:
+                st.write(document)
 
-            try:
+            with col2:
 
-                self._run_async(
-                    self._close_async()
-                )
+                if st.button(
+                    "Supprimer",
+                    key=f"delete_{document}",
+                    help="Remove document",
+                ):
 
-            except Exception:
-                pass
+                    st.session_state.document_to_delete = document
+                    st.rerun()
 
-        self._stop_callback_server()
+    # ========================================================
+    # DELETE DOCUMENT CONFIRMATION
+    # ========================================================
 
-        self.connected = False
+    if "document_to_delete" not in st.session_state:
+        st.session_state.document_to_delete = None
 
-        # Stop asyncio loop
+    if st.session_state.document_to_delete is not None:
 
-        if self.loop is not None:
+        document = st.session_state.document_to_delete
 
-            self.loop.call_soon_threadsafe(
-                self.loop.stop
-            )
+        st.warning(
+            f"Êtes-vous sûr de vouloir supprimer "
+            f"'{document}' ?"
+        )
 
-        # Wait for background thread
+        col1, col2 = st.columns(2)
 
-        if (
-            self.thread is not None
-            and self.thread.is_alive()
+        with col1:
+
+            if st.button(
+                "Supprimer",
+                key="confirm_delete",
+            ):
+
+                try:
+
+                    manager.remove_document(document)
+
+                    st.success(
+                        f"{document} supprimé avec succès."
+                    )
+
+                    st.session_state.document_to_delete = None
+
+                    st.rerun()
+
+                except Exception as e:
+
+                    st.error(
+                        "Impossible de supprimer "
+                        f"le document.\n\n{e}"
+                    )
+
+        with col2:
+
+            if st.button(
+                "Annuler",
+                key="cancel_delete",
+            ):
+
+                st.session_state.document_to_delete = None
+                st.rerun()
+
+    # ========================================================
+    # CLEAR DATABASE
+    # ========================================================
+
+    st.divider()
+
+    st.subheader("Vider la base de données")
+
+    if "confirm_clear_database" not in st.session_state:
+        st.session_state.confirm_clear_database = False
+
+    if not st.session_state.confirm_clear_database:
+
+        if st.button(
+            "Vider la base de données",
+            key="clear_database",
         ):
 
-            self.thread.join(
-                timeout=5
-            )
+            st.session_state.confirm_clear_database = True
+            st.rerun()
 
-        self.thread = None
+    else:
 
-        self.loop = None
-
-    # ========================================================
-    # Ensure connected
-    # ========================================================
-
-    def _ensure_connected(self):
-
-        if not self.connected:
-            raise RuntimeError(
-                "GoogleDriveMCPClient is not connected. "
-                "Call connect() first."
-            )
-
-    # ========================================================
-    # JSON helper
-    # ========================================================
-
-    @staticmethod
-    def _extract_json(result):
-
-        for content in result.content:
-
-            text = getattr(
-                content,
-                "text",
-                None,
-            )
-
-            if not text:
-                continue
-
-            try:
-                return json.loads(text)
-
-            except json.JSONDecodeError:
-                continue
-
-        raise RuntimeError(
-            "Could not parse JSON response from MCP tool."
+        st.warning(
+            "Vous êtes sur le point de supprimer tous les "
+            "documents indexés. Cette action est irréversible. "
+            "Confirmez-vous ?"
         )
 
-    # ========================================================
-    # List files
-    # ========================================================
+        col1, col2 = st.columns(2)
 
-    async def _list_files_async(self):
+        with col1:
 
-        result = await self.session.call_tool(
-            "files_list",
-            arguments={},
-        )
+            if st.button(
+                "Oui",
+                key="confirm_clear",
+            ):
 
-        data = self._extract_json(result)
+                try:
 
-        return data.get(
-            "files",
-            [],
-        )
+                    manager.clear_database()
 
-    def list_files(self):
+                    st.session_state.confirm_clear_database = False
 
-        self._ensure_connected()
+                    st.success(
+                        "Base de données vidée avec succès."
+                    )
 
-        return self._run_async(
-            self._list_files_async()
-        )
+                    st.rerun()
 
-    # ========================================================
-    # Get file
-    # ========================================================
+                except Exception as e:
 
-    async def _get_file_async(
-        self,
-        file_id: str,
-    ):
+                    st.error(
+                        "Impossible de vider la base de "
+                        f"données.\n\n{e}"
+                    )
 
-        result = await self.session.call_tool(
-            "file_get",
-            arguments={
-                "fileId": file_id,
-            },
-        )
+        with col2:
 
-        return self._extract_json(result)
+            if st.button(
+                "Annuler",
+                key="cancel_clear",
+            ):
 
-    def get_file(
-        self,
-        file_id: str,
-    ):
-
-        self._ensure_connected()
-
-        if not file_id:
-            raise ValueError(
-                "file_id must not be empty."
-            )
-
-        return self._run_async(
-            self._get_file_async(
-                file_id
-            )
-        )
-
-    # ========================================================
-    # Download file
-    # ========================================================
-
-    async def _download_file_async(
-        self,
-        file_id: str,
-    ):
-
-        result = await self.session.call_tool(
-            "file_download",
-            arguments={
-                "fileId": file_id,
-            },
-        )
-
-        data = self._extract_json(result)
-
-        content = data.get(
-            "content"
-        )
-
-        if not isinstance(
-            content,
-            str,
-        ):
-            raise RuntimeError(
-                "MCP file_download response does not "
-                "contain Base64 content."
-            )
-
-        try:
-
-            return base64.b64decode(
-                content,
-                validate=True,
-            )
-
-        except Exception as error:
-
-            raise RuntimeError(
-                "Failed to decode Base64 file content."
-            ) from error
-
-    def download_file(
-        self,
-        file_id: str,
-    ) -> bytes:
-
-        self._ensure_connected()
-
-        if not file_id:
-            raise ValueError(
-                "file_id must not be empty."
-            )
-
-        return self._run_async(
-            self._download_file_async(
-                file_id
-            )
-        )
+                st.session_state.confirm_clear_database = False
+                st.rerun()
