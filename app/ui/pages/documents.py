@@ -486,3 +486,5 @@ def documents_page():
                 st.session_state.confirm_clear_database = False
 
                 st.rerun()
+
+                
