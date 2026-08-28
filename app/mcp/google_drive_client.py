@@ -342,7 +342,7 @@ class GoogleDriveMCPClient:
         )
 
         try:
-            return future.result()
+            return future.result(timeout=60)
 
         except Exception:
             # Make sure exceptions propagate normally.
@@ -531,11 +531,28 @@ class GoogleDriveMCPClient:
 
             await self.session.__aenter__()
 
-            print(
-                "Initializing MCP session..."
-            )
+            print("Initializing MCP session...")
 
-            await self.session.initialize()
+            try:
+                await asyncio.wait_for(
+                    self.session.initialize(),
+                    timeout=30,
+                )
+
+                print("MCP session initialized successfully.")
+
+            except asyncio.TimeoutError:
+                print("ERROR: MCP session initialization timed out after 30 seconds.")
+                raise RuntimeError(
+                    "MCP session initialization timed out."
+                )
+
+            except Exception as e:
+                print(
+                    f"MCP session initialization failed: "
+                    f"{type(e).__name__}: {e}"
+                )
+                raise
 
             self.connected = True
 
